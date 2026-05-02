@@ -34,24 +34,24 @@ const META = [
 
 export default function EventMeta() {
   return (
-    <section className="border-t border-[color:var(--neon)]/30 bg-black">
+    <section className="border-t border-neon/30 bg-black">
       <div className="px-4 sm:px-8 py-16 max-w-6xl mx-auto">
-        <p className="text-[color:var(--terminal)] text-xs mb-2">
+        <p className="text-terminal text-xs mb-2">
           $ cat /etc/event/manifest.json
         </p>
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8 crt-glow">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-8 crt-glow text-neon">
           // METADADOS_DO_EVENTO_
         </h2>
 
         {/* META GRID */}
-        <div className="border border-[color:var(--neon)]/70 bg-black overflow-hidden">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[color:var(--neon)]/40">
+        <div className="border border-neon/70 bg-black overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-neon/40">
             {META.map((m) => (
               <div key={m.k} className="px-4 py-4">
-                <div className="text-[10px] text-[color:var(--terminal)]/70 font-mono tracking-widest mb-1">
+                <div className="text-[10px] text-terminal/70 font-mono tracking-widest mb-1">
                   &gt; {m.k}
                 </div>
-                <div className="text-sm sm:text-base text-[color:var(--neon)] crt-glow font-mono break-words">
+                <div className="text-sm sm:text-base text-neon crt-glow font-mono break-words">
                   {m.v}
                 </div>
               </div>
@@ -60,10 +60,10 @@ export default function EventMeta() {
         </div>
 
         {/* SPEAKERS */}
-        <p className="text-[color:var(--terminal)] text-xs mt-12 mb-2">
+        <p className="text-terminal text-xs mt-12 mb-2">
           $ ls -la /usr/share/speakers/ | grep .user
         </p>
-        <h3 className="text-xl sm:text-2xl font-bold mb-6 crt-glow">
+        <h3 className="text-xl sm:text-2xl font-bold mb-6 crt-glow text-neon">
           // FICHAS_DE_USUÁRIO_
         </h3>
 
@@ -71,23 +71,23 @@ export default function EventMeta() {
           {SPEAKERS.map((s, i) => (
             <article
               key={s.handle}
-              className="border border-[color:var(--neon)]/70 bg-black hover:bg-[color:var(--neon)]/5 transition-colors"
+              className="border border-neon/70 bg-black hover:bg-neon/5 transition-colors"
             >
               {/* header bar */}
-              <header className="flex items-center justify-between px-3 py-1.5 bg-[color:var(--neon)]/10 border-b border-[color:var(--neon)]/40">
-                <span className="text-[10px] text-[color:var(--neon)] crt-glow font-mono">
+              <header className="flex items-center justify-between px-3 py-1.5 bg-neon/10 border-b border-neon/40">
+                <span className="text-[10px] text-neon crt-glow font-mono">
                   USR_{String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="text-[10px] text-[color:var(--terminal)]/70 font-mono blink">
+                <span className="text-[10px] text-terminal/70 font-mono blink">
                   ● VERIFIED
                 </span>
               </header>
 
               <div className="p-4">
                 {/* Avatar — ASCII frame */}
-                <div className="mb-3 flex items-center justify-center h-20 border border-[color:var(--neon)]/40 bg-black">
+                <div className="mb-3 flex items-center justify-center h-20 border border-neon/40 bg-black">
                   <pre
-                    className="text-[10px] leading-tight text-[color:var(--neon)] crt-glow font-mono text-center select-none"
+                    className="text-[10px] leading-tight text-neon crt-glow font-mono text-center select-none"
                     aria-hidden
                   >
 {`  ┌─────┐
@@ -97,16 +97,16 @@ export default function EventMeta() {
                   </pre>
                 </div>
 
-                <div className="text-[10px] font-mono text-[color:var(--terminal)]/70 mb-1 break-all">
+                <div className="text-[10px] font-mono text-terminal/70 mb-1 break-all">
                   {s.handle}
                 </div>
-                <h4 className="text-sm sm:text-base font-bold text-[color:var(--neon)] crt-glow leading-tight">
+                <h4 className="text-sm sm:text-base font-bold text-neon crt-glow leading-tight">
                   {s.name}
                 </h4>
-                <div className="mt-2 inline-block border border-[color:var(--neon)]/60 px-2 py-0.5 text-[10px] text-[color:var(--neon)] crt-glow font-mono">
+                <div className="mt-2 inline-block border border-neon/60 px-2 py-0.5 text-[10px] text-neon crt-glow font-mono">
                   {s.role}
                 </div>
-                <div className="mt-3 text-[10px] text-[color:var(--terminal)]/60 font-mono">
+                <div className="mt-3 text-[10px] text-terminal/60 font-mono">
                   // {s.tag}
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default function EventMeta() {
           ))}
         </div>
 
-        <p className="text-[10px] text-[color:var(--terminal)]/60 mt-4 font-mono">
+        <p className="text-[10px] text-terminal/60 mt-4 font-mono">
           -- {SPEAKERS.length} usuários que já acordaram. Carregamento concluído · Autênticação: OK --
         </p>
       </div>

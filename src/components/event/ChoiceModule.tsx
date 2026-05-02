@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import pillsImage from "@/assets/image_6.png";
-import bgVideo from "@/assets/matrix_bg.mp4"
+import bgVideo from "@/assets/matrix_bg.mp4";
 
 const SYMPLA_URL =
   "https://www.sympla.com.br/evento/cOdigo-civil-20--o-patch-que-a-lei-precisava---adaptando-a-lei-a-realidade-fatica/3409159";
@@ -123,54 +123,25 @@ interface PillConfig {
 const STAGE_ASPECT = "3 / 2";
 const IMG_POSITION = "center 45%";
 
-/* Ajuste fino de posição */
+/* Ajuste fino de posição mantido conforme solicitado */
 const PILLS: Record<"legacy" | "patch", PillConfig> = {
   legacy: {
-    x: "25.8%",   // levemente mais para a esquerda
-    y: "51.0%",   // um pouquinho mais para cima
+    x: "25.8%",
+    y: "51.0%",
     rotate: "97deg",
     label: "[ MANTER O C.C DE 2002 ]",
     aria: "Pílula azul — sistema legado, opção indisponível",
     tone: "blue",
   },
   patch: {
-    x: "75.3%",   // um pouco mais para a direita
-    y: "51.6%",   // um pouco mais para cima
+    x: "75.3%",
+    y: "51.6%",
     rotate: "-92deg",
     label: "[ APROVAR A REFORMA ]",
     aria: "Pílula vermelha — executar Patch CC 2.0",
     tone: "red",
   },
 };
-
-interface OvalPillProps {
-  color: PillTone;
-  shake?: boolean;
-}
-
-// Mantido só para eventual reuso; não é mais renderizado.
-function OvalPill({ color, shake = false }: OvalPillProps) {
-  const isBlue = color === "blue";
-
-  return (
-    <div className={`choice-pill-shell ${shake ? "capsule-shake" : ""}`}>
-      <div
-        className={`choice-pill choice-pill-oval ${
-          isBlue ? "choice-pill-blue" : "choice-pill-red"
-        }`}
-      >
-        <div className="choice-pill-highlight" aria-hidden />
-        <div className="choice-pill-reflection" aria-hidden />
-        <div className="choice-pill-split" aria-hidden />
-        <div className="choice-pill-shadow" aria-hidden />
-        <div
-          className={`choice-pill-glow ${isBlue ? "is-blue" : "is-red"}`}
-          aria-hidden
-        />
-      </div>
-    </div>
-  );
-}
 
 interface PillHotspotProps {
   config: PillConfig;
@@ -195,11 +166,9 @@ function PillHotspot({
       style={{
         left: config.x,
         top: config.y,
-        // só centraliza, sem rotate aqui
         transform: "translate(-50%, -50%)",
       }}
     >
-      {/* WRAPPER que gira apenas o alvo/círculo */}
       <div
         style={{
           transform: `rotate(${config.rotate})`,
@@ -213,14 +182,13 @@ function PillHotspot({
           aria-label={config.aria}
           className={[
             "relative block",
-            // tamanho da hitbox: mobile menor, desktop maior
             "w-[43px] h-[20px] sm:w-[90px] sm:h-[49px]",
           ].join(" ")}
           style={{
             cursor: isLegacy ? "not-allowed" : executing ? "default" : "pointer",
             background: "transparent",
             border: "none",
-            padding: "0",           // padding zero para bater com width/height
+            padding: "0",
             touchAction: "manipulation",
           }}
         >
@@ -233,29 +201,28 @@ function PillHotspot({
         </button>
       </div>
 
-      {/* texto fora do wrapper rotacionado → fica reto */}
       <div
-       className={[
-         "absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-mono",
-         "text-[15px] sm:text-[15px]",
-         isLegacy
-           ? "crt-glow text-[color:var(--neon)]"
-           : "bug-glow font-bold text-[color:var(--bug)]",
-       ].join(" ")}
-       style={{
-         top: "calc(100% + 12px)",
-         textShadow: isLegacy
-           ? "0 0 6px rgba(0, 255, 65, 0.9)"
-           : "0 0 6px rgba(255, 0, 80, 0.9)",
-       }}
->
+        className={[
+          "absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-mono",
+          "text-[15px] sm:text-[15px]",
+          isLegacy
+            ? "crt-glow text-neon"
+            : "bug-glow font-bold text-bug",
+        ].join(" ")}
+        style={{
+          top: "calc(100% + 12px)",
+          textShadow: isLegacy
+            ? "0 0 6px rgba(0, 255, 65, 0.9)"
+            : "0 0 6px rgba(255, 0, 80, 0.9)",
+        }}
+      >
         {config.label}
       </div>
 
       {isLegacy && blueShake && (
         <div
           role="alert"
-          className="bug-glow absolute left-1/2 z-20 -translate-x-1/2 whitespace-nowrap border border-[color:var(--bug)] bg-black/90 px-2 py-1 font-mono text-[9px] text-[color:var(--bug)] sm:text-[10px]"
+          className="bug-glow absolute left-1/2 z-20 -translate-x-1/2 whitespace-nowrap border border-bug bg-black/90 px-2 py-1 font-mono text-[9px] text-bug sm:text-[10px]"
           style={{
             bottom: "calc(100% + 6px)",
             animation: "fade-in 0.15s ease-out",
@@ -266,7 +233,7 @@ function PillHotspot({
       )}
     </div>
   );
-  }
+}
 
 /* ---------------- Choice Module ---------------- */
 
@@ -276,9 +243,7 @@ export default function ChoiceModule() {
   const [screenGlitch, setScreenGlitch] = useState(false);
   const [logStep, setLogStep] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
-  const redirectedRef = useRef(false);
   
-  // Ref para o elemento de vídeo, necessário para interações no triggerRed
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -306,13 +271,14 @@ export default function ChoiceModule() {
     
     setTimeout(() => {
       if (videoRef.current) {
-        videoRef.current.muted = false; // Garante que não esteja mutado
-        videoRef.current.volume = 0.5;  // Define um volume inicial visível
-        videoRef.current.playbackRate = 1.5; // Configura velocidade do vídeo diretamente
+        videoRef.current.muted = false;
+        videoRef.current.volume = 0.5;
+        videoRef.current.playbackRate = 1.5;
         videoRef.current.play().catch(e => console.log("Erro ao tocar vídeo:", e));
       }
     }, 500);
 
+    // Mantido o tempo original planejado para a imersão
     setTimeout(() => { window.location.href = SYMPLA_URL; }, 7500);
   }, [executing]);
 
@@ -327,7 +293,6 @@ export default function ChoiceModule() {
     window.setTimeout(() => setBlueShake(false), 600);
   };
 
-  // Função para rolar suavemente até o módulo de escolha
   const scrollToPills = (e: React.MouseEvent) => {
     e.preventDefault();
     const target = document.getElementById("modulo-de-escolha");
@@ -338,58 +303,57 @@ export default function ChoiceModule() {
 
   return (
     <section
-      className={`relative overflow-hidden border-t border-[color:var(--neon)]/30 bg-black ${
+      className={`relative overflow-hidden border-t border-neon/30 bg-black ${
         screenGlitch ? "screen-glitch" : ""
       }`}
     >
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
         
-        {/* BOTÃO FIXO NO TOPO À DIREITA (Mais baixo) */}
+        {/* BOTÃO FIXO NO TOPO À DIREITA */}
         <div className="fixed top-10 right-6 z-[9990]">
           <button
             onClick={scrollToPills}
-            className="group relative inline-flex items-center justify-center overflow-hidden border border-[color:var(--neon)] bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-[color:var(--neon)] backdrop-blur-md transition-all hover:bg-[color:var(--neon)] hover:text-black sm:text-sm cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
+            className="group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all hover:bg-neon hover:text-black sm:text-sm cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
           >
             <span className="crt-glow relative z-10 uppercase">
               [ Garanta Sua Vaga ]
             </span>
-            <div className="absolute inset-0 z-0 bg-[color:var(--neon)] opacity-0 transition-opacity group-hover:opacity-100" />
+            <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-100" />
           </button>
         </div>
 
-        <p className="mb-3 text-center text-[10px] text-[color:var(--terminal)] sm:text-xs">
+        <p className="mb-3 text-center text-[10px] text-terminal sm:text-xs">
           $ ./Faça sua escolha --modulo=crítico
         </p>
 
         <h2
-          className="glitch crt-glow text-center text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
+          className="glitch crt-glow text-center text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl text-neon"
           data-text="// ESCOLHA O SEU CAMINHO_"
           style={{ lineHeight: 1.25 }}
         >
           // ESCOLHA O SEU CAMINHO_
         </h2>
 
-        <p className="mt-3 text-center text-[10px] text-[color:var(--terminal)] sm:text-xs">
+        <p className="mt-3 text-center text-[10px] text-terminal sm:text-xs">
           // dois caminhos. apenas um é executável.
         </p>
 
         <div
-          id="modulo-de-escolha" /* <-- ID PARA A ROLAGEM SUAVE */
-          className="relative mx-auto mt-8 overflow-hidden border border-[color:var(--neon)]/50 bg-black/60"
+          id="modulo-de-escolha"
+          className="relative mx-auto mt-8 overflow-hidden border border-neon/50 bg-black/60"
           style={{
             maxWidth: "860px",
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
-            boxShadow:
-              "0 0 30px rgba(0,255,65,0.15), inset 0 0 60px rgba(0,0,0,0.8)",
+            boxShadow: "0 0 30px rgba(0,255,65,0.15), inset 0 0 60px rgba(0,0,0,0.8)",
           }}
         >
           {/* top bar */}
-          <div className="flex items-center justify-between border-b border-[color:var(--neon)]/40 px-3 py-1.5 font-mono text-[10px]">
-            <span className="crt-glow text-[color:var(--neon)]">
+          <div className="flex items-center justify-between border-b border-neon/40 px-3 py-1.5 font-mono text-[10px]">
+            <span className="crt-glow text-neon">
               /dev/choice.bin
             </span>
-            <span className="blink text-[color:var(--terminal)]/70">
+            <span className="blink text-terminal/70">
               ● AGUARDANDO SUA DECISÃO
             </span>
           </div>
@@ -420,8 +384,7 @@ export default function ChoiceModule() {
               aria-hidden
               className="pointer-events-none absolute inset-0"
               style={{
-                background:
-                  "radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,0.88) 100%)",
+                background: "radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,0.88) 100%)",
               }}
             />
 
@@ -443,35 +406,33 @@ export default function ChoiceModule() {
           </div>
 
           {/* bottom bar */}
-          <div className="flex items-center justify-between border-t border-[color:var(--neon)]/40 px-3 py-1.5 font-mono text-[10px]">
-            <span className="text-[color:var(--terminal)]/70">
+          <div className="flex items-center justify-between border-t border-neon/40 px-3 py-1.5 font-mono text-[10px]">
+            <span className="text-terminal/70">
               Capsulas: 02 · Executáveis: 01
             </span>
-            <span className="crt-glow text-[color:var(--neon)]">
+            <span className="crt-glow text-neon">
               tap → diagnose
             </span>
           </div>
         </div>
 
-        <div className="mt-6 text-center font-mono text-lg sm:text-xl text-[color:var(--terminal)]/70">
+        <div className="mt-6 text-center font-mono text-lg sm:text-xl text-terminal/70">
         // Toque sobre uma das cápsulas
         </div>
       </div>
 
       {executing && (
         <>
-          {/* 0. CORTINA PRETA SÓLIDA PARA ESCONDER O SITE */}
           <div
             style={{
               position: "fixed",
               inset: 0,
               backgroundColor: "black",
-              zIndex: 9997, /* Fica imediatamente atrás do vídeo (9998) */
+              zIndex: 9997,
               pointerEvents: "none",
             }}
           />
 
-          {/* 1. VÍDEO DE FUNDO */}
           <video
             src={bgVideo} 
             autoPlay
@@ -481,15 +442,13 @@ export default function ChoiceModule() {
             ref={videoRef}
             style={{
               position: "fixed",
-              inset: 0,          /* Crava o elemento no topo, base e laterais absolutas */
-              width: "100%",     /* Usa a área ancorada, ignorando vh/vw bugados do mobile */
+              inset: 0,
+              width: "100%",
               height: "100%",
-              objectFit: "cover",/* Expande e centraliza cortando as sobras nativamente */
+              objectFit: "cover",
               opacity: 0.17, 
               zIndex: 9998,
               pointerEvents: "none",
-
-              /* A máscara agora agirá sobre a tela inteira com precisão matemática */
               WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
               maskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
               WebkitMaskSize: "cover",
@@ -497,7 +456,6 @@ export default function ChoiceModule() {
             }}
           />
 
-          {/* 1.5. SOMBRA PRETA NO TOPO PARA EMENDAR COM O FUNDO */}
           <div
             aria-hidden
             style={{
@@ -505,23 +463,19 @@ export default function ChoiceModule() {
               top: 0,
               left: 0,
               width: "100vw",
-              height: "100vh", /* 60vh = exatamente 3/5 da tela */
-              /* Gradiente ajustado: Sólido no topo (50%), escuro até a metade (90%) e some no fim (100%) */
+              height: "100vh",
               background: "linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0) 70%)", 
               zIndex: 9999,
               pointerEvents: "none",
             }}
           />
 
-          {/* 2. CHUVA DO MATRIX */}
           <MatrixRainCanvas active={executing} />
 
-          {/* 3. BOTÃO DE ÁUDIO */}
           <button
             type="button"
-            // onClick corrige o estado no componente pai
             onClick={() => setIsMuted(!isMuted)} 
-            className="fixed bottom-6 right-6 flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--neon)] bg-black/60 text-[color:var(--neon)] backdrop-blur-md transition-colors hover:bg-[color:var(--neon)] hover:text-black cursor-pointer"
+            className="fixed bottom-6 right-6 flex h-12 w-12 items-center justify-center rounded-full border border-neon bg-black/60 text-neon backdrop-blur-md transition-colors hover:bg-neon hover:text-black cursor-pointer"
             aria-label={isMuted ? "Ativar som" : "Desativar som"}
             style={{ zIndex: 10001, pointerEvents: "auto" }}
           >
@@ -540,7 +494,6 @@ export default function ChoiceModule() {
             )}
           </button>
 
-          {/* 4. TEXTOS DE SISTEMA (WAKE UP NEO) */}
           <div
             role="dialog"
             aria-live="assertive"
@@ -549,7 +502,7 @@ export default function ChoiceModule() {
           >
             <div className="max-w-[92vw] text-center font-mono">
               <div
-                className="crt-glow font-bold leading-relaxed text-[color:var(--neon)]"
+                className="crt-glow font-bold leading-relaxed text-neon"
                 style={{ fontSize: "clamp(0.85rem, 2.6vw, 1.25rem)" }}
               >
                 {logStep >= 1 && <p>&gt; REESCREVENDO_KERNEL... [OK]</p>}
@@ -557,14 +510,13 @@ export default function ChoiceModule() {
                   <p>&gt; ADAPTANDO_REALIDADE_FÁTICA... [99%]</p>
                 )}
                 {logStep >= 3 && (
-                  <p className="blink bug-glow mt-2 text-[color:var(--bug)]">
+                  <p className="blink bug-glow mt-2 text-bug">
                     &gt; WAKE UP, NEO.
                   </p>
                 )}
               </div>
 
-              {/* Frase impactante de redirecionamento */}
-              <p className="blink-cursor mt-6 text-xs text-[color:var(--terminal)]">
+              <p className="blink-cursor mt-6 text-xs text-terminal">
                 $ seguindo → o_coelho_branco.bin
               </p>
             </div>

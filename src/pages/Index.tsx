@@ -110,7 +110,7 @@ export default function Index() {
       <section className="border-t border-[color:var(--neon)]/30">
         <div className="px-4 sm:px-8 py-16 max-w-5xl mx-auto">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 crt-glow">
-            // a lei como sistema operacional da sociedade
+            // A lei como sistema operacional da sociedade
           </h2>
           <div className="border border-[color:var(--neon)]/60 p-4 sm:p-6 bg-black space-y-6">
             <p className="text-[color:var(--terminal)] text-sm sm:text-base leading-relaxed">
