@@ -309,13 +309,13 @@ export default function ChoiceModule() {
     >
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
         
-        {/* BOTÃO FIXO NO TOPO À DIREITA */}
+       {/* BOTÃO FIXO NO TOPO À DIREITA COM EFEITO DE BUG */}
         <div className="fixed top-10 right-6 z-[9990]">
           <button
             onClick={scrollToPills}
-            className="group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all hover:bg-neon hover:text-black sm:text-sm cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
+            className="glitch-hover group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all hover:bg-neon hover:text-black sm:text-sm cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
           >
-            <span className="crt-glow relative z-10 uppercase">
+            <span className="glitch-text crt-glow relative z-10 uppercase inline-block">
               [ Garanta Sua Vaga ]
             </span>
             <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-100" />
@@ -446,9 +446,15 @@ export default function ChoiceModule() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              opacity: 0.40, 
+              opacity: 0.40, /* Sua nova opacidade mais alta */
               zIndex: 9998,
               pointerEvents: "none",
+              
+              /* AS DUAS LINHAS NOVAS AQUI: */
+              mixBlendMode: "screen", 
+              transform: "scale(1.1)",
+
+              /* Suas máscaras intocadas: */
               WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
               maskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
               WebkitMaskSize: "cover",
