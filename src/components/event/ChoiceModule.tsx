@@ -273,13 +273,13 @@ export default function ChoiceModule() {
       if (videoRef.current) {
         videoRef.current.muted = false;
         videoRef.current.volume = 0.5;
-        videoRef.current.playbackRate = 1.5;
+        videoRef.current.playbackRate = 1.2;
         videoRef.current.play().catch(e => console.log("Erro ao tocar vídeo:", e));
       }
     }, 500);
 
     // Mantido o tempo original planejado para a imersão
-    setTimeout(() => { window.location.href = SYMPLA_URL; }, 7500);
+    setTimeout(() => { window.location.href = SYMPLA_URL; }, 11800);
   }, [executing]);
 
   const onRedActivate = (e: React.PointerEvent) => {
@@ -446,7 +446,7 @@ export default function ChoiceModule() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              opacity: 0.17, 
+              opacity: 0.21, 
               zIndex: 9998,
               pointerEvents: "none",
               WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
