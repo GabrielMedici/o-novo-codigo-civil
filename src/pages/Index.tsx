@@ -4,19 +4,19 @@ import EventMeta from "@/components/event/EventMeta";
 
 const MODULES = [
   {
-    id: "MODULE_01",
-    title: "INTELIGÊNCIA ARTIFICIAL",
-    body: "O Código atual NÃO POSSUI norma sobre responsabilidade de sistemas autônomos. Quem responde quando o algoritmo erra?",
+    id: "TEMA_01",
+    title: "Inteligência Artificial",
+    body: "Quem responde quando o algoritmo erra?",
   },
   {
-    id: "MODULE_02",
-    title: "NOVAS CONFIGURAÇÕES FAMILIARES",
-    body: "O código social evoluiu, a lei precisa acompanhar. O STF foi obrigado a preencher o vácuo legislativo.",
+    id: "TEMA_02",
+    title: "NOVAS FAMILIAS",
+    body: "A LEI PRECISA RECONHECER O QUE JÁ EXISTE",
   },
   {
-    id: "MODULE_03",
-    title: "CONTRATOS ELETRÔNICOS",
-    body: "Bilhões de contratos digitais. A reforma precisa nativizar o digital e estabelecer regras claras.",
+    id: "TEMA_03",
+    title: "CONTRATOS DIGITAIS",
+    body: "BILHÕES DE ACORDOS SEM REGRA CLARA",
   },
 ];
 
@@ -46,7 +46,7 @@ export default function Index() {
       {/* HERO */}
       <section className="px-4 sm:px-8 py-16 sm:py-24 max-w-5xl mx-auto">
         <p className="text-[color:var(--terminal)] text-xs sm:text-sm mb-6">
-          $ ./boot --target=civil_law --version=2.0
+          $ Iniciando análise do Código Civil — versão 2.0
         </p>
         <h1
           className="glitch crt-glow text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-4"
@@ -63,7 +63,7 @@ export default function Index() {
         </p>
 
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] sm:text-xs">
-          {["KERNEL: OK", "AI_MODULE: NULL", "FAMILY_DEF: LEGACY", "DIGITAL_CTX: UNDEFINED"].map((s, i) => (
+          {["KERNEL: OK", "Inteligência Artificial: sem regulação", "Famílias: definição desatualizada", "Contratos digitais: sem marco legal"].map((s, i) => (
             <div
               key={s}
               className={`border px-2 py-1 ${
@@ -82,7 +82,7 @@ export default function Index() {
       <section className="border-t border-[color:var(--neon)]/30 bg-black/60">
         <div className="px-4 sm:px-8 py-16 max-w-5xl mx-auto">
           <p className="text-[color:var(--bug)] bug-glow text-xs sm:text-sm mb-4">
-            [ERR] system.law.outdated_exception
+            [ERRO] A lei está desatualizada para a realidade atual
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold mb-8 crt-glow">
             // RELATÓRIO DE BUG_
@@ -172,9 +172,9 @@ export default function Index() {
             <table className="w-full text-xs sm:text-sm">
               <thead className="bg-[color:var(--neon)]/10 border-b border-[color:var(--neon)]/60">
                 <tr className="text-left text-[color:var(--neon)] crt-glow">
-                  <th className="px-3 py-2">BUG_ID</th>
+                  <th className="px-3 py-2">N°</th>
                   <th className="px-3 py-2">DESCRIÇÃO</th>
-                  <th className="px-3 py-2">SEVERIDADE</th>
+                  <th className="px-3 py-2">URGÊNCIA</th>
                 </tr>
               </thead>
               <tbody>
@@ -212,7 +212,7 @@ export default function Index() {
 
       {/* FOOTER */}
       <footer className="border-t border-[color:var(--neon)]/40 px-4 py-4 text-[10px] sm:text-xs text-[color:var(--terminal)] flex flex-wrap items-center justify-between gap-2">
-        <span>© CC 2.0 — open source civil law</span>
+        <span>Código Civil 2.0 — Direito Noturno 3° Semestre — Maringá, PR — 2026 Criação LP: Médici, Gabriel</span>
         <span className="text-[color:var(--neon)]">build: {bootLine >= 4 ? "stable" : "compiling..."}</span>
         <span>// EOF</span>
       </footer>

@@ -127,7 +127,7 @@ const PILLS: Record<"legacy" | "patch", PillConfig> = {
     x: "25.8%",   // levemente mais para a esquerda
     y: "51.0%",   // um pouquinho mais para cima
     rotate: "97deg",
-    label: "[ SISTEMA_LEGADO ]",
+    label: "[ MANTER O C.C DE 2002 ]",
     aria: "Pílula azul — sistema legado, opção indisponível",
     tone: "blue",
   },
@@ -135,7 +135,7 @@ const PILLS: Record<"legacy" | "patch", PillConfig> = {
     x: "75.3%",   // um pouco mais para a direita
     y: "51.6%",   // um pouco mais para cima
     rotate: "-92deg",
-    label: "[ EXECUTAR_PATCH_2.0 ]",
+    label: "[ APROVAR A REFORMA ]",
     aria: "Pílula vermelha — executar Patch CC 2.0",
     tone: "red",
   },
