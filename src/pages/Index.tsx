@@ -51,6 +51,7 @@ export default function Index() {
         <h1
           className="glitch crt-glow text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-4"
           data-text="CÓDIGO CIVIL 2.0"
+          style={{ lineHeight: 1.4 }}
         >
           <span className="typing">CÓDIGO CIVIL 2.0</span>
         </h1>
