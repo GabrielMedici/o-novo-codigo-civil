@@ -421,8 +421,8 @@ export default function ChoiceModule() {
           </div>
         </div>
 
-        <div className="mt-6 text-center font-mono text-[10px] text-[color:var(--terminal)]/70 sm:text-xs">
-          // toque sobre uma das cápsulas
+        <div className="mt-6 text-center font-mono text-lg sm:text-xl text-[color:var(--terminal)]/70">
+        // Toque sobre uma das cápsulas
         </div>
       </div>
 
