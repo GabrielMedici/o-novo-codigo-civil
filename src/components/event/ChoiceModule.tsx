@@ -182,7 +182,7 @@ function PillHotspot({
           aria-label={config.aria}
           className={[
             "relative block",
-            "w-[43px] h-[20px] sm:w-[90px] sm:h-[49px]",
+            "w-10.75 h-5 sm:w-22.5 sm:h-12.25",
           ].join(" ")}
           style={{
             cursor: isLegacy ? "not-allowed" : executing ? "default" : "pointer",
@@ -303,14 +303,14 @@ export default function ChoiceModule() {
 
   return (
     <section
-      className={`relative overflow-hidden border-t border-neon/30 bg-black ${
+      className={`relative overflow-hidden border-t border-neon/30 bg-transparent ${
         screenGlitch ? "screen-glitch" : ""
       }`}
     >
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
         
        {/* BOTÃO FIXO REFINADO */}
-        <div className="fixed top-10 right-6 z-[9990]">
+        <div className="fixed top-10 right-6 z-9990">
           <button
             onClick={scrollToPills}
             className="glitch-hover group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"

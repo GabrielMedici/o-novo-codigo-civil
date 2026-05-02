@@ -1,36 +1,32 @@
-export function Logo({ className = "" }: { className?: string }) {
-  return (
-    <div className={`inline-flex items-center gap-3 ${className}`}>
-      <div className="relative">
-        <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-current/80">
-          PATR-
-          <span className="text-bordeaux">SUJ</span>
-          /001
-        </div>
-        <div className="serif italic text-2xl leading-none mt-0.5">
-          A &ldquo;<span className="not-italic font-bold">Coisa</span>&rdquo;
-          <span className="ml-2 text-bordeaux">que sente.</span>
-        </div>
-      </div>
-    </div>
-  );
+import { cn } from "@/lib/utils";
+
+interface LogoProps {
+  className?: string;
 }
 
-export function LogoMark({ className = "" }: { className?: string }) {
+export default function Logo({ className }: LogoProps) {
   return (
-    <svg viewBox="0 0 64 64" className={className} fill="none">
-      <rect x="2" y="6" width="60" height="52" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="32" cy="14" r="2.5" stroke="currentColor" strokeWidth="1.2" />
-      <line x1="10" y1="26" x2="54" y2="26" stroke="currentColor" strokeWidth="0.8" />
-      {/* Barcode-ish */}
-      {[12, 15, 17, 21, 24, 28, 32, 35, 39, 43, 46, 50].map((x, i) => (
-        <line key={i} x1={x} y1="32" x2={x} y2="48" stroke="currentColor" strokeWidth={i % 3 === 0 ? 1.6 : 0.8} />
-      ))}
-      {/* Glitch break = the questioning */}
-      <line x1="28" y1="36" x2="44" y2="36" stroke="#600010" strokeWidth="2" />
-      <text x="32" y="58" textAnchor="middle" fontSize="5" fontFamily="monospace" fill="currentColor" letterSpacing="1">
-        SUJEITO?
-      </text>
-    </svg>
+    <div className={cn("pt-20 pb-12 flex flex-col items-center justify-center", className)}>
+      <div className="relative inline-block">
+        {/* Título Principal com brilho CRT */}
+        <h1 
+          className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tighter text-neon crt-glow" 
+          style={{ lineHeight: 1.1 }}
+        >
+          CÓDIGO CIVIL 2.0
+        </h1>
+        
+        {/* Selo de Versão/Patch (estilo bug/glitch) */}
+        <div className="absolute -bottom-2 right-0 bg-neon text-black text-[10px] font-bold px-1 py-0.5 leading-none uppercase tracking-widest animate-pulse shadow-[0_0_10px_#00ff41]">
+          v2.0_patch_fatico
+        </div>
+      </div>
+
+      {/* Subtítulo estilo terminal */}
+      <p className="mt-6 text-terminal text-sm sm:text-base font-mono tracking-[0.2em] opacity-80 uppercase">
+        <span className="text-neon/60 mr-2">$</span>
+        // A atualização que a lei precisava _
+      </p>
+    </div>
   );
 }

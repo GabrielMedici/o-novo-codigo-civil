@@ -34,7 +34,7 @@ const META = [
 
 export default function EventMeta() {
   return (
-    <section className="border-t border-neon/30 bg-black">
+    <section className="border-t border-neon/30 bg-transparent">
       <div className="px-4 sm:px-8 py-16 max-w-6xl mx-auto">
         <p className="text-terminal text-xs mb-2">
           $ cat /etc/event/manifest.json
@@ -44,7 +44,7 @@ export default function EventMeta() {
         </h2>
 
         {/* META GRID */}
-        <div className="border border-neon/70 bg-black overflow-hidden">
+        <div className="border border-neon/70 bg-transparent overflow-hidden">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-neon/40">
             {META.map((m) => (
               <div key={m.k} className="px-4 py-4">
@@ -71,7 +71,7 @@ export default function EventMeta() {
           {SPEAKERS.map((s, i) => (
             <article
               key={s.handle}
-              className="border border-neon/70 bg-black hover:bg-neon/5 transition-colors"
+              className="border border-neon/70 bg-transparent hover:bg-neon/5 transition-colors"
             >
               {/* header bar */}
               <header className="flex items-center justify-between px-3 py-1.5 bg-neon/10 border-b border-neon/40">
@@ -85,7 +85,7 @@ export default function EventMeta() {
 
               <div className="p-4">
                 {/* Avatar — ASCII frame */}
-                <div className="mb-3 flex items-center justify-center h-20 border border-neon/40 bg-black">
+                <div className="mb-3 flex items-center justify-center h-20 border border-neon/40 bg-transparent">
                   <pre
                     className="text-[10px] leading-tight text-neon crt-glow font-mono text-center select-none"
                     aria-hidden
