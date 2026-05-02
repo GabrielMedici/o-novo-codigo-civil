@@ -1,0 +1,258 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-neon: var(--neon);
+  --color-terminal: var(--terminal);
+  --color-bug: var(--bug);
+  --font-mono: "Fira Code", "Roboto Mono", "Courier New", ui-monospace, monospace;
+  --font-serif: "Fira Code", "Courier New", monospace;
+}
+
+:root {
+  --radius: 0px;
+  --neon: #00FF41;
+  --terminal: #C5C6C7;
+  --bug: #FF003C;
+
+  --background: #000000;
+  --foreground: #00FF41;
+  --card: #000000;
+  --card-foreground: #00FF41;
+  --popover: #000000;
+  --popover-foreground: #00FF41;
+  --primary: #00FF41;
+  --primary-foreground: #000000;
+  --secondary: #0a0a0a;
+  --secondary-foreground: #C5C6C7;
+  --muted: #0a0a0a;
+  --muted-foreground: #C5C6C7;
+  --accent: #00FF41;
+  --accent-foreground: #000000;
+  --destructive: #FF003C;
+  --destructive-foreground: #000000;
+  --border: #00FF41;
+  --input: #00FF41;
+  --ring: #00FF41;
+}
+
+.dark { color-scheme: dark; }
+
+@layer base {
+  * { border-color: var(--color-border); border-radius: 0 !important; }
+  html, body {
+    background-color: #000000;
+    color: var(--neon);
+    font-family: "Fira Code", "Courier New", monospace;
+    font-feature-settings: "ss01", "tnum";
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--neon); color: #000; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: var(--neon); }
+}
+
+@layer utilities {
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 255, 65, 0.03) 0px,
+      rgba(0, 255, 65, 0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  }
+  .crt-glow {
+    text-shadow: 0 0 4px rgba(0, 255, 65, 0.6), 0 0 12px rgba(0, 255, 65, 0.25);
+  }
+  .bug-glow {
+    text-shadow: 0 0 4px rgba(255, 0, 60, 0.7), 0 0 12px rgba(255, 0, 60, 0.3);
+  }
+  .blink-cursor::after {
+    content: "_";
+    display: inline-block;
+    margin-left: 2px;
+    animation: blink 1s steps(1) infinite;
+  }
+  .blink {
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
+  .glitch {
+    position: relative;
+    display: inline-block;
+    line-height: 1.25;
+    padding-top: 0.15em;
+    padding-bottom: 0.1em;
+    overflow: visible;
+  }
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    /* no overflow:hidden — would clip diacritics like the Ó accent */
+    pointer-events: none;
+  }
+  .glitch::before {
+    color: #FF003C;
+    transform: translate(2px, 0);
+    /* negative top inset preserves diacritics above cap-height */
+    clip-path: inset(-30% 0 55% 0);
+    mix-blend-mode: screen;
+    animation: glitch-x 3.2s infinite steps(1);
+  }
+  .glitch::after {
+    color: #00FFFF;
+    transform: translate(-2px, 0);
+    clip-path: inset(55% 0 -10% 0);
+    mix-blend-mode: screen;
+    animation: glitch-x 2.4s infinite reverse steps(1);
+  }
+  .cta-pulse {
+    animation: ctaPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes ctaPulse {
+    0%, 100% {
+      box-shadow: 0 0 14px rgba(255, 0, 60, 0.55), 0 0 28px rgba(255, 0, 60, 0.3),
+        inset 0 0 18px rgba(255, 0, 60, 0.18);
+    }
+    50% {
+      box-shadow: 0 0 26px rgba(255, 0, 60, 0.95), 0 0 60px rgba(255, 0, 60, 0.6),
+        inset 0 0 28px rgba(255, 0, 60, 0.32);
+    }
+  }
+  .cta-pulse:hover {
+    animation-duration: 0.9s;
+  }
+  @keyframes glitch-x {
+    0%, 92%, 100% { transform: translate(0, 0); }
+    93% { transform: translate(2px, -1px); }
+    95% { transform: translate(-2px, 1px); }
+    97% { transform: translate(1px, 2px); }
+  }
+  .pulse-pill {
+    box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.7);
+    animation: pulsePill 1.6s infinite;
+  }
+  @keyframes pulsePill {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.7), 0 0 24px rgba(255,0,60,0.5); }
+    70% { box-shadow: 0 0 0 24px rgba(255, 0, 60, 0), 0 0 36px rgba(255,0,60,0.3); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0), 0 0 24px rgba(255,0,60,0.5); }
+  }
+  .flash-overlay {
+    animation: flashGlitch 0.5s ease-out;
+  }
+  @keyframes flashGlitch {
+    0% { opacity: 0; }
+    20% { opacity: 1; transform: translate(4px, -2px); filter: hue-rotate(60deg); }
+    50% { opacity: 0.6; transform: translate(-3px, 2px); }
+    100% { opacity: 0; transform: translate(0, 0); }
+  }
+  .typing {
+    display: inline-block;
+    overflow: hidden;
+    /* extra vertical breathing room so diacritics (Ó, Ç) are not clipped */
+    line-height: 1.25;
+    padding-top: 0.18em;
+    padding-bottom: 0.08em;
+    white-space: nowrap;
+    border-right: 2px solid var(--neon);
+    animation: typing 2.4s steps(20, end) 0.2s 1 normal both, blink 0.9s steps(1) infinite;
+  }
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  .binary-rain {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .binary-rain.active { opacity: 0.85; }
+  .binary-rain span {
+    position: absolute;
+    top: -20%;
+    color: var(--bug);
+    font-family: "Fira Code", monospace;
+    font-size: 12px;
+    text-shadow: 0 0 6px rgba(255, 0, 60, 0.8);
+    animation: rain linear infinite;
+    white-space: pre;
+  }
+  @keyframes rain {
+    0% { transform: translateY(-20%); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(420%); opacity: 0; }
+  }
+  .pill-shatter {
+    animation: shatter 0.55s ease-out forwards;
+  }
+  @keyframes shatter {
+    0% { transform: scale(1); filter: blur(0); opacity: 1; }
+    40% { transform: scale(1.6); filter: blur(1px); opacity: 1; }
+    100% { transform: scale(6); filter: blur(8px); opacity: 0; }
+  }
+  .scene-glitch {
+    animation: sceneGlitch 0.5s steps(2) 1;
+  }
+  @keyframes sceneGlitch {
+    0% { transform: translate(0,0); filter: hue-rotate(0); }
+    20% { transform: translate(-6px, 3px); filter: hue-rotate(80deg) invert(0.1); }
+    40% { transform: translate(5px, -2px); filter: hue-rotate(-60deg); }
+    60% { transform: translate(-3px, 1px); filter: hue-rotate(120deg); }
+    100% { transform: translate(0,0); filter: hue-rotate(0); }
+  }
+  .hand-wire {
+    stroke: var(--neon);
+    fill: none;
+    stroke-width: 1.2;
+    filter: drop-shadow(0 0 3px rgba(0,255,65,0.6));
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .hand-wire.dim { opacity: 0.25; transform: translateX(-12px); }
+  .data-bridge {
+    stroke: var(--bug);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+    filter: drop-shadow(0 0 4px rgba(255,0,60,0.8));
+    animation: dash 0.6s linear infinite;
+  }
+  @keyframes dash {
+    to { stroke-dashoffset: -16; }
+  }
+}
