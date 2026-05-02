@@ -278,7 +278,7 @@ export default function ChoiceModule() {
       }
     }, 500);
 
-    // Mantido o tempo original planejado para a imersão
+    // Redirecionamento original
     setTimeout(() => { window.location.href = SYMPLA_URL; }, 11800);
   }, [executing]);
 
@@ -433,10 +433,10 @@ export default function ChoiceModule() {
             }}
           />
 
+          {/* O atributo loop foi removido abaixo */}
           <video
             src={bgVideo} 
             autoPlay
-            loop
             muted={isMuted}
             playsInline
             ref={videoRef}
@@ -446,7 +446,7 @@ export default function ChoiceModule() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              opacity: 0.21, 
+              opacity: 0.40, 
               zIndex: 9998,
               pointerEvents: "none",
               WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
@@ -520,6 +520,25 @@ export default function ChoiceModule() {
                 $ seguindo → o_coelho_branco.bin
               </p>
             </div>
+          </div>
+
+          {/* BOTÃO E AVISO PARA PULAR A ANIMAÇÃO (SKIP) */}
+          <div 
+            className="fixed bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 w-full px-4"
+            style={{ zIndex: 10001, pointerEvents: "auto" }}
+          >
+            <p className="text-[10px] sm:text-xs text-terminal/80 font-mono text-center opacity-80">
+              Aguarde, você será redirecionado automaticamente...
+            </p>
+            <button
+              onClick={() => { window.location.href = SYMPLA_URL; }}
+              className="group relative inline-flex items-center justify-center overflow-hidden border border-neon/50 bg-black/80 px-6 py-2 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all hover:bg-neon hover:text-black cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.15)]"
+            >
+              <span className="crt-glow relative z-10 uppercase">
+                [ Ir Agora ]
+              </span>
+              <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-100" />
+            </button>
           </div>
         </>
       )}
