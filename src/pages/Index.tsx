@@ -199,7 +199,7 @@ export default function Index() {
             </table>
           </div>
           <p className="text-[10px] sm:text-xs text-[color:var(--terminal)] mt-3">
-            -- Fim do Scan -- {BUGS.length} 3 itens críticos escaneados --
+            -- Fim do Scan -- {BUGS.length} itens críticos escaneados --
           </p>
         </div>
       </section>

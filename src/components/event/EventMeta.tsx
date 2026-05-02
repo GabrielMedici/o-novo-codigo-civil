@@ -115,7 +115,7 @@ export default function EventMeta() {
         </div>
 
         <p className="text-[10px] text-[color:var(--terminal)]/60 mt-4 font-mono">
-          -- {SPEAKERS.length} usuários que já acordaram carregados · Autênticação: OK --
+          -- {SPEAKERS.length} usuários que já acordaram. Carregamento concluído · Autênticação: OK --
         </p>
       </div>
     </section>

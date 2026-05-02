@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import pillsImage from "@/assets/image_6.png";
+import bgVideo from "@/assets/matrix_bg.mp4"
 
 const SYMPLA_URL =
   "https://www.sympla.com.br/evento/cOdigo-civil-20--o-patch-que-a-lei-precisava---adaptando-a-lei-a-realidade-fatica/3409159";
@@ -21,7 +22,7 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
 
     const safeCanvas = canvas as HTMLCanvasElement;
     const safeCtx = ctx as CanvasRenderingContext2D;
- 
+
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let width = 0;
     let height = 0;
@@ -57,18 +58,18 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
       if (now - last >= targetMs) {
         last = now;
 
-       safeCtx.fillStyle = "rgba(0,0,0,0.08)";
-       safeCtx.fillRect(0, 0, width, height);
-       safeCtx.font = `${fontSize}px "Fira Code", monospace`;
-       safeCtx.textBaseline = "top";
+        safeCtx.fillStyle = "rgba(0,0,0,0.08)";
+        safeCtx.fillRect(0, 0, width, height);
+        safeCtx.font = `${fontSize}px "Fira Code", monospace`;
+        safeCtx.textBaseline = "top";
 
         for (let i = 0; i < columns; i++) {
           const ch = chars.charAt(Math.floor(Math.random() * chars.length));
           const x = i * fontSize;
           const y = drops[i] * fontSize;
 
-       safeCtx.fillStyle = Math.random() > 0.975 ? "#CCFFCC" : "#00FF41";
-       safeCtx.fillText(ch, x, y);
+          safeCtx.fillStyle = Math.random() > 0.975 ? "#CCFFCC" : "#00FF41";
+          safeCtx.fillText(ch, x, y);
 
           if (y > height && Math.random() > 0.975) drops[i] = 0;
           drops[i]++;
@@ -98,6 +99,7 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
         width: "100vw",
         height: "100vh",
         background: "#000",
+        mixBlendMode: "screen",
         zIndex: 9999,
         pointerEvents: "none",
       }}
@@ -273,7 +275,11 @@ export default function ChoiceModule() {
   const [blueShake, setBlueShake] = useState(false);
   const [screenGlitch, setScreenGlitch] = useState(false);
   const [logStep, setLogStep] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
   const redirectedRef = useRef(false);
+  
+  // Ref para o elemento de vídeo, necessário para interações no triggerRed
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (!executing) return;
@@ -295,17 +301,19 @@ export default function ChoiceModule() {
 
   const triggerRed = useCallback(() => {
     if (executing) return;
-
-    setScreenGlitch(true);
-    window.setTimeout(() => setScreenGlitch(false), 450);
     setExecuting(true);
+    document.body.style.overflow = "hidden";
+    
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.muted = false; // Garante que não esteja mutado
+        videoRef.current.volume = 0.5;  // Define um volume inicial visível
+        videoRef.current.playbackRate = 1.5; // Configura velocidade do vídeo diretamente
+        videoRef.current.play().catch(e => console.log("Erro ao tocar vídeo:", e));
+      }
+    }, 500);
 
-    if (redirectedRef.current) return;
-    redirectedRef.current = true;
-
-    window.setTimeout(() => {
-      window.location.href = SYMPLA_URL;
-    }, 2500);
+    setTimeout(() => { window.location.href = SYMPLA_URL; }, 7000);
   }, [executing]);
 
   const onRedActivate = (e: React.PointerEvent) => {
@@ -319,6 +327,15 @@ export default function ChoiceModule() {
     window.setTimeout(() => setBlueShake(false), 600);
   };
 
+  // Função para rolar suavemente até o módulo de escolha
+  const scrollToPills = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const target = document.getElementById("modulo-de-escolha");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   return (
     <section
       className={`relative overflow-hidden border-t border-[color:var(--neon)]/30 bg-black ${
@@ -326,6 +343,20 @@ export default function ChoiceModule() {
       }`}
     >
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
+        
+        {/* BOTÃO FIXO NO TOPO À DIREITA (Mais baixo) */}
+        <div className="fixed top-10 right-6 z-[9990]">
+          <button
+            onClick={scrollToPills}
+            className="group relative inline-flex items-center justify-center overflow-hidden border border-[color:var(--neon)] bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-[color:var(--neon)] backdrop-blur-md transition-all hover:bg-[color:var(--neon)] hover:text-black sm:text-sm cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
+          >
+            <span className="crt-glow relative z-10 uppercase">
+              [ Garanta Sua Vaga ]
+            </span>
+            <div className="absolute inset-0 z-0 bg-[color:var(--neon)] opacity-0 transition-opacity group-hover:opacity-100" />
+          </button>
+        </div>
+
         <p className="mb-3 text-center text-[10px] text-[color:var(--terminal)] sm:text-xs">
           $ ./Faça sua escolha --modulo=crítico
         </p>
@@ -343,6 +374,7 @@ export default function ChoiceModule() {
         </p>
 
         <div
+          id="modulo-de-escolha" /* <-- ID PARA A ROLAGEM SUAVE */
           className="relative mx-auto mt-8 overflow-hidden border border-[color:var(--neon)]/50 bg-black/60"
           style={{
             maxWidth: "860px",
@@ -428,8 +460,86 @@ export default function ChoiceModule() {
 
       {executing && (
         <>
+          {/* 0. CORTINA PRETA SÓLIDA PARA ESCONDER O SITE */}
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              backgroundColor: "black",
+              zIndex: 9997, /* Fica imediatamente atrás do vídeo (9998) */
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* 1. VÍDEO DE FUNDO */}
+          <video
+            src={bgVideo} 
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            ref={videoRef}
+            style={{
+              position: "fixed",
+              inset: 0,          /* Crava o elemento no topo, base e laterais absolutas */
+              width: "100%",     /* Usa a área ancorada, ignorando vh/vw bugados do mobile */
+              height: "100%",
+              objectFit: "cover",/* Expande e centraliza cortando as sobras nativamente */
+              opacity: 0.17, 
+              zIndex: 9998,
+              pointerEvents: "none",
+
+              /* A máscara agora agirá sobre a tela inteira com precisão matemática */
+              WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
+              maskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
+              WebkitMaskSize: "cover",
+              maskSize: "cover",
+            }}
+          />
+
+          {/* 1.5. SOMBRA PRETA NO TOPO PARA EMENDAR COM O FUNDO */}
+          <div
+            aria-hidden
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "25vh", // Reduzido para complementar a máscara em vez de forçar o escurecimento
+              background: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)", // Gradiente natural
+              zIndex: 9999,
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* 2. CHUVA DO MATRIX */}
           <MatrixRainCanvas active={executing} />
 
+          {/* 3. BOTÃO DE ÁUDIO */}
+          <button
+            type="button"
+            // onClick corrige o estado no componente pai
+            onClick={() => setIsMuted(!isMuted)} 
+            className="fixed bottom-6 right-6 flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--neon)] bg-black/60 text-[color:var(--neon)] backdrop-blur-md transition-colors hover:bg-[color:var(--neon)] hover:text-black cursor-pointer"
+            aria-label={isMuted ? "Ativar som" : "Desativar som"}
+            style={{ zIndex: 10001, pointerEvents: "auto" }}
+          >
+            {isMuted ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+              </svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+              </svg>
+            )}
+          </button>
+
+          {/* 4. TEXTOS DE SISTEMA (WAKE UP NEO) */}
           <div
             role="dialog"
             aria-live="assertive"
@@ -441,9 +551,9 @@ export default function ChoiceModule() {
                 className="crt-glow font-bold leading-relaxed text-[color:var(--neon)]"
                 style={{ fontSize: "clamp(0.85rem, 2.6vw, 1.25rem)" }}
               >
-                {logStep >= 1 && <p>&gt; KERNEL_REWRITING... [OK]</p>}
+                {logStep >= 1 && <p>&gt; REESCREVENDO_KERNEL... [OK]</p>}
                 {logStep >= 2 && (
-                  <p>&gt; ADAPTANDO_REALIDADE_FÁTICA... [100%]</p>
+                  <p>&gt; ADAPTANDO_REALIDADE_FÁTICA... [99%]</p>
                 )}
                 {logStep >= 3 && (
                   <p className="blink bug-glow mt-2 text-[color:var(--bug)]">
@@ -452,8 +562,9 @@ export default function ChoiceModule() {
                 )}
               </div>
 
+              {/* Frase impactante de redirecionamento */}
               <p className="blink-cursor mt-6 text-xs text-[color:var(--terminal)]">
-                $ redirecting → sympla.com.br
+                $ seguindo → o_coelho_branco.bin
               </p>
             </div>
           </div>
