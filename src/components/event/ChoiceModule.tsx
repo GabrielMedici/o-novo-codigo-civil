@@ -327,7 +327,7 @@ export default function ChoiceModule() {
     >
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
         <p className="mb-3 text-center text-[10px] text-[color:var(--terminal)] sm:text-xs">
-          $ ./choice --module=critical
+          $ ./Faça sua escolha --modulo=crítico
         </p>
 
         <h2
@@ -358,7 +358,7 @@ export default function ChoiceModule() {
               /dev/choice.bin
             </span>
             <span className="blink text-[color:var(--terminal)]/70">
-              ● AWAITING_INPUT
+              ● AGUARDANDO SUA DECISÃO
             </span>
           </div>
 
@@ -413,7 +413,7 @@ export default function ChoiceModule() {
           {/* bottom bar */}
           <div className="flex items-center justify-between border-t border-[color:var(--neon)]/40 px-3 py-1.5 font-mono text-[10px]">
             <span className="text-[color:var(--terminal)]/70">
-              capsules: 02 · executable: 01
+              Capsulas: 02 · Executáveis: 01
             </span>
             <span className="crt-glow text-[color:var(--neon)]">
               tap → diagnose

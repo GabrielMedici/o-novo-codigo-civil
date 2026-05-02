@@ -38,8 +38,8 @@ export default function Index() {
     <main className="min-h-screen bg-black text-[color:var(--neon)] scanlines selection:bg-[color:var(--neon)] selection:text-black overflow-x-hidden">
       {/* TOP BAR */}
       <header className="border-b border-[color:var(--neon)]/40 px-4 py-2 text-xs flex flex-wrap items-center justify-between gap-2">
-        <span className="crt-glow">root@cc2.0:~#</span>
-        <span className="text-[color:var(--terminal)]">SESSION: 0xCC-2026 · TTY/01</span>
+        <span className="crt-glow">Liberar@C.C-2.0:~#</span>
+        <span className="text-[color:var(--terminal)]">SESSÃO: N°0 C.C. - 2026 · USUÁRIO 01</span>
         <span className="blink text-[color:var(--neon)]">● ONLINE</span>
       </header>
 
@@ -129,7 +129,7 @@ export default function Index() {
       {/* MÓDULOS */}
       <section className="border-t border-[color:var(--neon)]/30 bg-black">
         <div className="px-4 sm:px-8 py-16 max-w-6xl mx-auto">
-          <p className="text-[color:var(--terminal)] text-xs mb-2">$ load --modules=update</p>
+          <p className="text-[color:var(--terminal)] text-xs mb-2">$ Carregando --modulos=atualizar</p>
           <h2 className="text-2xl sm:text-3xl font-bold mb-10 crt-glow">
             // MÓDULOS DE ATUALIZAÇÃO_
           </h2>
@@ -162,7 +162,7 @@ export default function Index() {
       <section className="border-t border-[color:var(--neon)]/30">
         <div className="px-4 sm:px-8 py-16 max-w-5xl mx-auto">
           <p className="text-[color:var(--terminal)] text-xs sm:text-sm mb-2">
-            root@sys:~# tail -n /var/log/syslog_cc2002
+            Admin@sistema:Analise /necessidades_atuais/C.C-2002/log_do_sistema
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold mb-6 crt-glow">
             // RELATÓRIO DE BUGS CRÍTICOS_
@@ -199,7 +199,7 @@ export default function Index() {
             </table>
           </div>
           <p className="text-[10px] sm:text-xs text-[color:var(--terminal)] mt-3">
-            -- end of log -- {BUGS.length} entries scanned --
+            -- Fim do Scan -- {BUGS.length} 3 itens críticos escaneados --
           </p>
         </div>
       </section>
@@ -212,7 +212,7 @@ export default function Index() {
 
       {/* FOOTER */}
       <footer className="border-t border-[color:var(--neon)]/40 px-4 py-4 text-[10px] sm:text-xs text-[color:var(--terminal)] flex flex-wrap items-center justify-between gap-2">
-        <span>Código Civil 2.0 — Direito Noturno 3° Semestre — Maringá, PR — 2026 Criação LP: Médici, Gabriel</span>
+        <span>Código Civil 2.0 — Direito Noturno 3° Semestre — Maringá, PR — 2026 LP por: Médici® </span>
         <span className="text-[color:var(--neon)]">build: {bootLine >= 4 ? "stable" : "compiling..."}</span>
         <span>// EOF</span>
       </footer>
