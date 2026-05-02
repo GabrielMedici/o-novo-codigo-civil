@@ -505,8 +505,9 @@ export default function ChoiceModule() {
               top: 0,
               left: 0,
               width: "100vw",
-              height: "25vh", // Reduzido para complementar a máscara em vez de forçar o escurecimento
-              background: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)", // Gradiente natural
+              height: "100vh", /* 60vh = exatamente 3/5 da tela */
+              /* Gradiente ajustado: Sólido no topo (50%), escuro até a metade (90%) e some no fim (100%) */
+              background: "linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0) 70%)", 
               zIndex: 9999,
               pointerEvents: "none",
             }}
