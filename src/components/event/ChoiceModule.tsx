@@ -309,22 +309,25 @@ export default function ChoiceModule() {
     >
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
         
-       {/* BOTÃO FIXO NO TOPO À DIREITA COM EFEITO DE BUG */}
+       {/* BOTÃO FIXO REFINADO */}
         <div className="fixed top-10 right-6 z-[9990]">
           <button
             onClick={scrollToPills}
-            className="glitch-hover group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all hover:bg-neon hover:text-black sm:text-sm cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
+            className="glitch-hover group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
           >
-            <span className="glitch-text crt-glow relative z-10 uppercase inline-block">
+            {/* Texto Original */}
+            <span className="original-text crt-glow relative z-10 uppercase">
               [ Garanta Sua Vaga ]
             </span>
-            <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-100" />
+            
+            {/* Texto do Bug (só aparece no hover) */}
+            <span className="bug-text crt-glow relative z-10 uppercase text-neon">
+              [ ACORDAR_AGORA ]
+            </span>
+
+            <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-10" />
           </button>
         </div>
-
-        <p className="mb-3 text-center text-[10px] text-terminal sm:text-xs">
-          $ ./Faça sua escolha --modulo=crítico
-        </p>
 
         <h2
           className="glitch crt-glow text-center text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl text-neon"
