@@ -313,7 +313,7 @@ export default function ChoiceModule() {
       }
     }, 500);
 
-    setTimeout(() => { window.location.href = SYMPLA_URL; }, 7000);
+    setTimeout(() => { window.location.href = SYMPLA_URL; }, 7500);
   }, [executing]);
 
   const onRedActivate = (e: React.PointerEvent) => {
