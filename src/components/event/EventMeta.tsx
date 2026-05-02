@@ -51,7 +51,7 @@ export default function EventMeta() {
                 <div className="text-[10px] text-terminal/70 font-mono tracking-widest mb-1">
                   &gt; {m.k}
                 </div>
-                <div className="text-sm sm:text-base text-neon crt-glow font-mono break-words">
+                <div className="text-sm sm:text-base text-neon crt-glow font-mono wrap-break-word">
                   {m.v}
                 </div>
               </div>
@@ -64,7 +64,7 @@ export default function EventMeta() {
           $ ls -la /usr/share/speakers/ | grep .user
         </p>
         <h3 className="text-xl sm:text-2xl font-bold mb-6 crt-glow text-neon">
-          // FICHAS_DE_USUÁRIO_
+          // PALESTRANTES_CONFIRMADOS
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
