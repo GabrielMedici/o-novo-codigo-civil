@@ -214,7 +214,7 @@ function PillHotspot({
             cursor: isLegacy ? "not-allowed" : executing ? "default" : "pointer",
             background: "transparent",
             border: "none",
-            padding: "24px 47px", // mantém sua área clicável
+            padding: "12px 19px", // mantém sua área clicável
             touchAction: "manipulation",
           }}
         >
@@ -231,7 +231,7 @@ function PillHotspot({
       <div
        className={[
          "absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-mono",
-         "text-[20px] sm:text-[20px]",
+         "text-[15px] sm:text-[15px]",
          isLegacy
            ? "crt-glow text-[color:var(--neon)]"
            : "bug-glow font-bold text-[color:var(--bug)]",
