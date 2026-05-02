@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+import pillsImage from "@/assets/image_6.png";
 
 const SYMPLA_URL =
   "https://www.sympla.com.br/evento/a-coisa-que-sente---de-objeto-sujeito-com-a-reforma-do-codigo-civil/3404244";
 
-/* ---------------- Matrix Rain (Canvas, 60fps, mobile-safe) ---------------- */
+/* ---------------- Matrix Rain (Canvas, mobile-safe) ---------------- */
 
 function MatrixRainCanvas({ active }: { active: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -16,7 +17,6 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    // Cap DPR for mobile perf
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let width = 0;
     let height = 0;
@@ -41,17 +41,14 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
     window.addEventListener("resize", resize);
 
     let last = performance.now();
-    const targetMs = 1000 / 30; // 30fps is plenty for rain & saves battery on mobile
+    const targetMs = 1000 / 30;
 
     function frame(now: number) {
       const elapsed = now - last;
       if (elapsed >= targetMs) {
         last = now;
-
-        // Trail effect
         ctx!.fillStyle = "rgba(0,0,0,0.08)";
         ctx!.fillRect(0, 0, width, height);
-
         ctx!.font = `${fontSize}px "Fira Code", monospace`;
         ctx!.textBaseline = "top";
 
@@ -59,18 +56,9 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
           const ch = chars.charAt(Math.floor(Math.random() * chars.length));
           const x = i * fontSize;
           const y = drops[i] * fontSize;
-
-          // Leading char: bright white-green, trail: neon green
-          if (Math.random() > 0.975) {
-            ctx!.fillStyle = "#CCFFCC";
-          } else {
-            ctx!.fillStyle = "#00FF41";
-          }
+          ctx!.fillStyle = Math.random() > 0.975 ? "#CCFFCC" : "#00FF41";
           ctx!.fillText(ch, x, y);
-
-          if (y > height && Math.random() > 0.975) {
-            drops[i] = 0;
-          }
+          if (y > height && Math.random() > 0.975) drops[i] = 0;
           drops[i]++;
         }
       }
@@ -107,134 +95,243 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
 export default function ChoiceModule() {
   const [executing, setExecuting] = useState(false);
   const [blueErr, setBlueErr] = useState(false);
+  const [redHover, setRedHover] = useState(false);
   const redirectedRef = useRef(false);
 
   const triggerRed = useCallback(() => {
     if (executing) return;
     setExecuting(true);
-    // lock body scroll for the dramatic moment
     document.body.style.overflow = "hidden";
     if (redirectedRef.current) return;
     redirectedRef.current = true;
     window.setTimeout(() => {
       window.location.href = SYMPLA_URL;
-    }, 2600);
+    }, 3000);
   }, [executing]);
 
-  // Single-tap on mobile: use onPointerUp so iOS/Android fire instantly without 300ms delay
-  const onRedActivate = (e: React.PointerEvent | React.MouseEvent) => {
+  const onRedActivate = (e: React.PointerEvent) => {
     e.preventDefault();
     triggerRed();
   };
 
-  const onBlueActivate = (e: React.PointerEvent | React.MouseEvent) => {
+  const onBlueActivate = (e: React.PointerEvent) => {
     e.preventDefault();
     setBlueErr(true);
-    window.setTimeout(() => setBlueErr(false), 2200);
+    window.setTimeout(() => setBlueErr(false), 2400);
   };
 
   return (
     <section className="border-t border-[color:var(--neon)]/30 bg-black relative overflow-hidden">
-      <div className="mx-3 sm:mx-6 my-10 border border-[color:var(--neon)] relative overflow-hidden">
+      <div className="px-4 sm:px-8 py-16 max-w-5xl mx-auto">
         {/* Header */}
-        <div className="px-4 sm:px-8 pt-8 sm:pt-12 text-center relative z-10">
-          <p className="text-[color:var(--terminal)] text-[10px] sm:text-xs mb-3">
-            $ ./choice --module=critical
-          </p>
-          <h2
-            className="crt-glow text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight glitch"
-            data-text="// ESCOLHA O SEU SISTEMA_"
-          >
-            // ESCOLHA O SEU SISTEMA_
-          </h2>
-          <p className="mt-4 text-[color:var(--bug)] bug-glow text-xs sm:text-sm blink font-bold">
-            &gt; WAKE UP, NEO. A REALIDADE CHAMA_
-          </p>
-          <p className="mt-2 text-[color:var(--terminal)] text-[10px] sm:text-xs">
-            // dois caminhos. apenas um é executável.
-          </p>
+        <p className="text-[color:var(--terminal)] text-[10px] sm:text-xs mb-3 text-center">
+          $ ./choice --module=critical
+        </p>
+        <h2
+          className="crt-glow text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight glitch text-center"
+          data-text="// ESCOLHA O SEU CAMINHO_"
+        >
+          // ESCOLHA O SEU CAMINHO_
+        </h2>
+        <p className="mt-3 text-center text-[color:var(--terminal)] text-[10px] sm:text-xs">
+          // dois caminhos. apenas um é executável.
+        </p>
+
+        {/* Above-image terminal text (red hover state) */}
+        <div className="mt-8 min-h-[24px] text-center font-mono text-xs sm:text-sm">
+          {redHover && !executing && (
+            <span className="text-[color:var(--bug)] bug-glow blink font-bold">
+              &gt; WAKE UP, NEO. A REALIDADE CHAMA_
+            </span>
+          )}
         </div>
 
-        {/* Capsules */}
-        <div className="relative z-10 mt-10 sm:mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 px-4 sm:px-10 pb-12 sm:pb-16 max-w-5xl mx-auto">
-          {/* BLUE — legacy */}
-          <div className="flex flex-col items-stretch">
+        {/* Interaction frame */}
+        <div
+          className="relative mx-auto mt-3 border border-[color:var(--neon)]/50 bg-black/60"
+          style={{
+            maxWidth: "640px",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            boxShadow:
+              "0 0 30px rgba(0,255,65,0.15), inset 0 0 60px rgba(0,0,0,0.8)",
+          }}
+        >
+          {/* Top status bar */}
+          <div className="flex items-center justify-between px-3 py-1.5 border-b border-[color:var(--neon)]/40 text-[10px] font-mono">
+            <span className="text-[color:var(--neon)] crt-glow">
+              /dev/choice.bin
+            </span>
+            <span className="text-[color:var(--terminal)]/70 blink">
+              ● AWAITING_INPUT
+            </span>
+          </div>
+
+          {/* Image + hotspots */}
+          <div
+            className="relative w-full select-none"
+            style={{ aspectRatio: "1 / 1" }}
+          >
+            <img
+              src={pillsImage}
+              alt="Duas mãos: pílula azul à esquerda (legado), pílula vermelha à direita (patch 2.0)"
+              loading="lazy"
+              draggable={false}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                filter:
+                  "grayscale(1) contrast(3) brightness(0.7) sepia(1) hue-rotate(90deg) saturate(10)",
+              }}
+            />
+
+            {/* Scanline overlay on top of treated image */}
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none scanlines mix-blend-overlay opacity-60"
+            />
+
+            {/* Vignette */}
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%)",
+              }}
+            />
+
+            {/* BLUE HOTSPOT — left pill (~33% x, ~52% y) */}
             <button
               type="button"
               onPointerUp={onBlueActivate}
-              aria-label="Manter sistema legado (acesso negado)"
-              className={`group relative w-full px-4 sm:px-6 py-6 sm:py-8 border-2 transition-all duration-300 backdrop-blur-md text-center select-none
-                ${
-                  blueErr
-                    ? "border-[#1a3a8a] bg-[#0a1a3a]/80"
-                    : "border-[#1e4fc4] bg-[#0a1a3a]/30 hover:bg-[#0a1a3a]/60"
-                }`}
+              aria-label="Pílula azul — opção indisponível"
+              className="absolute group"
               style={{
-                boxShadow: blueErr
-                  ? "0 0 24px rgba(30,79,196,0.4), inset 0 0 30px rgba(30,79,196,0.15)"
-                  : "0 0 18px rgba(30,79,196,0.45), inset 0 0 24px rgba(30,79,196,0.18)",
-              }}
-            >
-              <div className="text-[10px] sm:text-xs text-[#7faaff]/80 font-mono mb-2">
-                [ CAPSULE_01 // legacy.sys ]
-              </div>
-              <div
-                className="font-mono font-bold text-base sm:text-xl tracking-wider"
-                style={{
-                  color: "#9bc1ff",
-                  textShadow: "0 0 8px rgba(30,79,196,0.9), 0 0 16px rgba(30,79,196,0.5)",
-                }}
-              >
-                [ MANTER_SISTEMA_LEGADO ]
-              </div>
-              <div className="mt-3 text-[10px] sm:text-xs text-[#7faaff]/70 font-mono">
-                version: cc/2002 · status: deprecated
-              </div>
-            </button>
-            <div className="mt-3 min-h-[44px] text-center text-[10px] sm:text-xs font-mono">
-              {blueErr ? (
-                <div className="border border-[color:var(--bug)] bg-[color:var(--bug)]/10 text-[color:var(--bug)] bug-glow px-3 py-2 inline-block font-bold">
-                  ERRO: OBSOLESCÊNCIA DETECTADA
-                </div>
-              ) : (
-                <span className="text-[color:var(--terminal)]/60">
-                  // hover/toque para diagnóstico
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* RED — patch 2.0 (CTA) */}
-          <div className="flex flex-col items-stretch">
-            <button
-              type="button"
-              onPointerUp={onRedActivate}
-              disabled={executing}
-              aria-label="Executar Patch 2.0 — inscrição"
-              className="group relative w-full px-4 sm:px-6 py-6 sm:py-8 border-2 transition-all duration-300 backdrop-blur-md text-center select-none
-                border-[color:var(--bug)] bg-[color:var(--bug)]/10 hover:bg-[color:var(--bug)]/20
-                hover:scale-[1.03] active:scale-[0.98] cta-pulse cursor-pointer disabled:cursor-wait"
-              style={{
+                left: "33%",
+                top: "52%",
+                width: "16%",
+                aspectRatio: "1 / 1",
+                transform: "translate(-50%, -50%)",
+                cursor: "not-allowed",
+                background: "transparent",
+                border: "none",
+                padding: 0,
                 touchAction: "manipulation",
               }}
             >
-              <div className="text-[10px] sm:text-xs text-[color:var(--bug)]/90 font-mono mb-2 bug-glow">
-                [ CAPSULE_02 // patch.cc2.0 ]
-              </div>
-              <div
-                className="font-mono font-bold text-base sm:text-xl tracking-wider text-[color:var(--bug)] bug-glow"
-              >
-                [ EXECUTAR_PATCH_2.0 ]
-              </div>
-              <div className="mt-3 text-[10px] sm:text-xs text-[color:var(--bug)]/80 font-mono blink">
-                ● ready · click to deploy
-              </div>
+              <span
+                aria-hidden
+                className={`block w-full h-full rounded-full transition-all duration-200 ${
+                  blueErr ? "blink" : ""
+                }`}
+                style={{
+                  background: blueErr
+                    ? "radial-gradient(circle, rgba(255,0,60,0.85) 0%, rgba(255,0,60,0.3) 50%, transparent 70%)"
+                    : "transparent",
+                  boxShadow: blueErr
+                    ? "0 0 30px 8px rgba(255,0,60,0.9), 0 0 60px 16px rgba(255,0,60,0.5)"
+                    : "none",
+                  mixBlendMode: "screen",
+                }}
+              />
+              {/* Targeting brackets on hover */}
+              <span
+                aria-hidden
+                className="absolute inset-[-12%] border border-[color:var(--bug)]/0 group-hover:border-[color:var(--bug)]/80 transition-colors duration-150"
+                style={{
+                  clipPath:
+                    "polygon(0 0, 25% 0, 25% 4%, 4% 4%, 4% 25%, 0 25%, 0 75%, 4% 75%, 4% 96%, 25% 96%, 25% 100%, 0 100%, 0 100%, 75% 100%, 75% 96%, 96% 96%, 96% 75%, 100% 75%, 100% 25%, 96% 25%, 96% 4%, 75% 4%, 75% 0, 100% 0, 100% 0)",
+                }}
+              />
             </button>
-            <div className="mt-3 min-h-[44px] text-center text-[10px] sm:text-xs font-mono space-y-0.5">
-              <div className="text-[color:var(--neon)] crt-glow">&gt; target: REFORMA.EXE</div>
-              <div className="text-[color:var(--neon)] crt-glow">&gt; certified: 4H · UniCesumar</div>
-            </div>
+
+            {/* RED HOTSPOT — right pill (~67% x, ~52% y) */}
+            <button
+              type="button"
+              onPointerUp={onRedActivate}
+              onPointerEnter={() => setRedHover(true)}
+              onPointerLeave={() => setRedHover(false)}
+              disabled={executing}
+              aria-label="Pílula vermelha — executar Patch 2.0"
+              className="absolute group"
+              style={{
+                left: "67%",
+                top: "52%",
+                width: "16%",
+                aspectRatio: "1 / 1",
+                transform: "translate(-50%, -50%)",
+                cursor: "pointer",
+                background: "transparent",
+                border: "none",
+                padding: 0,
+                touchAction: "manipulation",
+              }}
+            >
+              <span
+                aria-hidden
+                className="block w-full h-full rounded-full pulse-pill"
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(255,0,60,0.55) 0%, rgba(255,0,60,0.18) 55%, transparent 75%)",
+                  mixBlendMode: "screen",
+                }}
+              />
+              <span
+                aria-hidden
+                className="absolute inset-[-12%] border border-[color:var(--bug)]/40 group-hover:border-[color:var(--bug)] transition-colors duration-150"
+                style={{
+                  clipPath:
+                    "polygon(0 0, 25% 0, 25% 4%, 4% 4%, 4% 25%, 0 25%, 0 75%, 4% 75%, 4% 96%, 25% 96%, 25% 100%, 0 100%, 0 100%, 75% 100%, 75% 96%, 96% 96%, 96% 75%, 100% 75%, 100% 25%, 96% 25%, 96% 4%, 75% 4%, 75% 0, 100% 0, 100% 0)",
+                }}
+              />
+            </button>
+
+            {/* When red hovered: darken the rest */}
+            {redHover && !executing && (
+              <div
+                aria-hidden
+                className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+                style={{
+                  background:
+                    "radial-gradient(circle at 67% 52%, transparent 8%, rgba(0,0,0,0.65) 30%)",
+                }}
+              />
+            )}
           </div>
+
+          {/* Bottom status bar */}
+          <div className="flex items-center justify-between px-3 py-1.5 border-t border-[color:var(--neon)]/40 text-[10px] font-mono">
+            <span className="text-[color:var(--terminal)]/70">
+              capsules: 02 · executable: 01
+            </span>
+            <span className="text-[color:var(--neon)] crt-glow">
+              hover/tap → diagnose
+            </span>
+          </div>
+        </div>
+
+        {/* Below-image terminal text */}
+        <div className="mt-6 min-h-[64px] text-center font-mono text-xs sm:text-sm space-y-2">
+          {blueErr && (
+            <div className="text-[color:var(--bug)] bug-glow font-bold blink">
+              [ERRO: OBSOLESCÊNCIA DETECTADA - OPÇÃO NÃO DISPONÍVEL]_
+            </div>
+          )}
+          {redHover && !executing && !blueErr && (
+            <div className="text-[color:var(--neon)] crt-glow font-bold blink">
+              &gt; CLIQUE PARA EXECUTAR_
+            </div>
+          )}
+          {!blueErr && !redHover && (
+            <>
+              <div className="text-[color:var(--terminal)]/70">
+                &gt; left.capsule = legacy.sys · right.capsule = patch.cc2.0
+              </div>
+              <div className="text-[color:var(--terminal)]/50 text-[10px]">
+                // toque ou clique sobre uma das pílulas
+              </div>
+            </>
+          )}
         </div>
       </div>
 
