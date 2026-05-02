@@ -536,7 +536,7 @@ export default function ChoiceModule() {
             className="fixed bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 w-full px-4"
             style={{ zIndex: 10001, pointerEvents: "auto" }}
           >
-            <p className="text-[10px] sm:text-xs text-terminal/80 font-mono text-center opacity-80">
+            <p className="text-[10px] sm:text-xl text-terminal/80 font-mono text-center opacity-80">
               Aguarde, você será redirecionado automaticamente...
             </p>
             <button
