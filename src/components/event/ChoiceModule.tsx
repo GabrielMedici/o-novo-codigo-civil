@@ -83,7 +83,7 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
         width: "100vw",
         height: "100vh",
         background: "#000",
-        zIndex: 99998,
+        zIndex: 9999,
         pointerEvents: "none",
       }}
     />
@@ -94,19 +94,35 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
 
 export default function ChoiceModule() {
   const [executing, setExecuting] = useState(false);
-  const [blueErr, setBlueErr] = useState(false);
-  const [redHover, setRedHover] = useState(false);
+  const [blueShake, setBlueShake] = useState(false);
+  const [screenGlitch, setScreenGlitch] = useState(false);
+  const [logStep, setLogStep] = useState(0);
   const redirectedRef = useRef(false);
+
+  // Progressive log lines after red pill activation
+  useEffect(() => {
+    if (!executing) return;
+    const t1 = window.setTimeout(() => setLogStep(1), 400);
+    const t2 = window.setTimeout(() => setLogStep(2), 1100);
+    const t3 = window.setTimeout(() => setLogStep(3), 1800);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [executing]);
 
   const triggerRed = useCallback(() => {
     if (executing) return;
+    setScreenGlitch(true);
+    window.setTimeout(() => setScreenGlitch(false), 450);
     setExecuting(true);
     document.body.style.overflow = "hidden";
     if (redirectedRef.current) return;
     redirectedRef.current = true;
     window.setTimeout(() => {
       window.location.href = SYMPLA_URL;
-    }, 3000);
+    }, 2500);
   }, [executing]);
 
   const onRedActivate = (e: React.PointerEvent) => {
@@ -116,12 +132,16 @@ export default function ChoiceModule() {
 
   const onBlueActivate = (e: React.PointerEvent) => {
     e.preventDefault();
-    setBlueErr(true);
-    window.setTimeout(() => setBlueErr(false), 2400);
+    setBlueShake(true);
+    window.setTimeout(() => setBlueShake(false), 600);
   };
 
   return (
-    <section className="border-t border-[color:var(--neon)]/30 bg-black relative overflow-hidden">
+    <section
+      className={`border-t border-[color:var(--neon)]/30 bg-black relative overflow-hidden ${
+        screenGlitch ? "screen-glitch" : ""
+      }`}
+    >
       <div className="px-4 sm:px-8 py-16 max-w-5xl mx-auto">
         {/* Header */}
         <p className="text-[color:var(--terminal)] text-[10px] sm:text-xs mb-3 text-center">
@@ -130,6 +150,7 @@ export default function ChoiceModule() {
         <h2
           className="crt-glow text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight glitch text-center"
           data-text="// ESCOLHA O SEU CAMINHO_"
+          style={{ lineHeight: 1.4 }}
         >
           // ESCOLHA O SEU CAMINHO_
         </h2>
@@ -137,18 +158,9 @@ export default function ChoiceModule() {
           // dois caminhos. apenas um é executável.
         </p>
 
-        {/* Above-image terminal text (red hover state) */}
-        <div className="mt-8 min-h-[24px] text-center font-mono text-xs sm:text-sm">
-          {redHover && !executing && (
-            <span className="text-[color:var(--bug)] bug-glow blink font-bold">
-              &gt; WAKE UP, NEO. A REALIDADE CHAMA_
-            </span>
-          )}
-        </div>
-
         {/* Interaction frame */}
         <div
-          className="relative mx-auto mt-3 border border-[color:var(--neon)]/50 bg-black/60"
+          className="relative mx-auto mt-8 border border-[color:var(--neon)]/50 bg-black/60"
           style={{
             maxWidth: "640px",
             backdropFilter: "blur(10px)",
@@ -167,7 +179,7 @@ export default function ChoiceModule() {
             </span>
           </div>
 
-          {/* Image + hotspots */}
+          {/* Image + capsule overlay */}
           <div
             className="relative w-full select-none"
             style={{ aspectRatio: "1 / 1" }}
@@ -180,11 +192,39 @@ export default function ChoiceModule() {
               className="absolute inset-0 w-full h-full object-cover"
               style={{
                 filter:
-                  "grayscale(1) contrast(3) brightness(0.7) sepia(1) hue-rotate(90deg) saturate(10)",
+                  "grayscale(1) contrast(2.4) brightness(0.55) sepia(1) hue-rotate(85deg) saturate(7)",
               }}
             />
 
-            {/* Scanline overlay on top of treated image */}
+            {/* Mask: hide existing pill dots in the image with two black blots */}
+            <div
+              aria-hidden
+              className="absolute pointer-events-none rounded-full"
+              style={{
+                left: "33%",
+                top: "52%",
+                width: "14%",
+                height: "14%",
+                transform: "translate(-50%, -50%)",
+                background:
+                  "radial-gradient(circle, rgba(0,0,0,0.95) 30%, rgba(0,0,0,0.6) 60%, transparent 100%)",
+              }}
+            />
+            <div
+              aria-hidden
+              className="absolute pointer-events-none rounded-full"
+              style={{
+                left: "67%",
+                top: "52%",
+                width: "14%",
+                height: "14%",
+                transform: "translate(-50%, -50%)",
+                background:
+                  "radial-gradient(circle, rgba(0,0,0,0.95) 30%, rgba(0,0,0,0.6) 60%, transparent 100%)",
+              }}
+            />
+
+            {/* Scanline overlay */}
             <div
               aria-hidden
               className="absolute inset-0 pointer-events-none scanlines mix-blend-overlay opacity-60"
@@ -200,103 +240,105 @@ export default function ChoiceModule() {
               }}
             />
 
-            {/* BLUE HOTSPOT — left pill (~33% x, ~52% y) */}
-            <button
-              type="button"
-              onPointerUp={onBlueActivate}
-              aria-label="Pílula azul — opção indisponível"
-              className="absolute group"
+            {/* ===== BLUE CAPSULE OVERLAY (left, ~33% / 52%) ===== */}
+            <div
+              className="absolute"
               style={{
                 left: "33%",
                 top: "52%",
-                width: "16%",
-                aspectRatio: "1 / 1",
                 transform: "translate(-50%, -50%)",
-                cursor: "not-allowed",
-                background: "transparent",
-                border: "none",
-                padding: 0,
-                touchAction: "manipulation",
               }}
             >
-              <span
-                aria-hidden
-                className={`block w-full h-full rounded-full transition-all duration-200 ${
-                  blueErr ? "blink" : ""
-                }`}
+              <button
+                type="button"
+                onPointerUp={onBlueActivate}
+                aria-label="Pílula azul — sistema legado, opção indisponível"
+                className="relative block"
                 style={{
-                  background: blueErr
-                    ? "radial-gradient(circle, rgba(255,0,60,0.85) 0%, rgba(255,0,60,0.3) 50%, transparent 70%)"
-                    : "transparent",
-                  boxShadow: blueErr
-                    ? "0 0 30px 8px rgba(255,0,60,0.9), 0 0 60px 16px rgba(255,0,60,0.5)"
-                    : "none",
-                  mixBlendMode: "screen",
+                  cursor: "not-allowed",
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
+                  touchAction: "manipulation",
                 }}
-              />
-              {/* Targeting brackets on hover */}
-              <span
-                aria-hidden
-                className="absolute inset-[-12%] border border-[color:var(--bug)]/0 group-hover:border-[color:var(--bug)]/80 transition-colors duration-150"
-                style={{
-                  clipPath:
-                    "polygon(0 0, 25% 0, 25% 4%, 4% 4%, 4% 25%, 0 25%, 0 75%, 4% 75%, 4% 96%, 25% 96%, 25% 100%, 0 100%, 0 100%, 75% 100%, 75% 96%, 96% 96%, 96% 75%, 100% 75%, 100% 25%, 96% 25%, 96% 4%, 75% 4%, 75% 0, 100% 0, 100% 0)",
-                }}
-              />
-            </button>
+              >
+                <div
+                  className={`capsule-3d capsule-blue ${blueShake ? "capsule-shake" : ""}`}
+                  style={{
+                    width: "clamp(50px, 9vw, 60px)",
+                    height: "clamp(20px, 3.75vw, 25px)",
+                  }}
+                />
+                {/* Targeting frame */}
+                <div className="targeting-frame">
+                  <span />
+                </div>
+              </button>
+              {/* Label */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2 mt-3 whitespace-nowrap font-mono text-[9px] sm:text-[10px] text-[color:var(--neon)] crt-glow"
+                style={{ top: "100%" }}
+              >
+                [ SISTEMA_LEGADO ]
+              </div>
+              {/* Error balloon */}
+              {blueShake && (
+                <div
+                  role="alert"
+                  className="absolute left-1/2 -translate-x-1/2 -top-9 whitespace-nowrap px-2 py-1 font-mono text-[9px] sm:text-[10px] text-[color:var(--bug)] bug-glow border border-[color:var(--bug)] bg-black/90"
+                  style={{ animation: "fade-in 0.15s ease-out" }}
+                >
+                  ! ACESSO_NEGADO: VERSÃO_OBSOLETA
+                </div>
+              )}
+            </div>
 
-            {/* RED HOTSPOT — right pill (~67% x, ~52% y) */}
-            <button
-              type="button"
-              onPointerUp={onRedActivate}
-              onPointerEnter={() => setRedHover(true)}
-              onPointerLeave={() => setRedHover(false)}
-              disabled={executing}
-              aria-label="Pílula vermelha — executar Patch 2.0"
-              className="absolute group"
+            {/* ===== RED CAPSULE OVERLAY (right, ~67% / 52%) ===== */}
+            <div
+              className="absolute"
               style={{
                 left: "67%",
                 top: "52%",
-                width: "16%",
-                aspectRatio: "1 / 1",
                 transform: "translate(-50%, -50%)",
-                cursor: "pointer",
-                background: "transparent",
-                border: "none",
-                padding: 0,
-                touchAction: "manipulation",
               }}
             >
-              <span
-                aria-hidden
-                className="block w-full h-full rounded-full pulse-pill"
+              <button
+                type="button"
+                onPointerUp={onRedActivate}
+                disabled={executing}
+                aria-label="Pílula vermelha — executar Patch CC 2.0"
+                className="relative block"
                 style={{
-                  background:
-                    "radial-gradient(circle, rgba(255,0,60,0.55) 0%, rgba(255,0,60,0.18) 55%, transparent 75%)",
-                  mixBlendMode: "screen",
+                  cursor: "pointer",
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
+                  touchAction: "manipulation",
                 }}
-              />
-              <span
-                aria-hidden
-                className="absolute inset-[-12%] border border-[color:var(--bug)]/40 group-hover:border-[color:var(--bug)] transition-colors duration-150"
-                style={{
-                  clipPath:
-                    "polygon(0 0, 25% 0, 25% 4%, 4% 4%, 4% 25%, 0 25%, 0 75%, 4% 75%, 4% 96%, 25% 96%, 25% 100%, 0 100%, 0 100%, 75% 100%, 75% 96%, 96% 96%, 96% 75%, 100% 75%, 100% 25%, 96% 25%, 96% 4%, 75% 4%, 75% 0, 100% 0, 100% 0)",
-                }}
-              />
-            </button>
-
-            {/* When red hovered: darken the rest */}
-            {redHover && !executing && (
+              >
+                <div
+                  className="capsule-3d capsule-red"
+                  style={{
+                    width: "clamp(50px, 9vw, 60px)",
+                    height: "clamp(20px, 3.75vw, 25px)",
+                  }}
+                />
+                {/* Ping rings */}
+                <span className="ping-ring" aria-hidden />
+                <span className="ping-ring delay" aria-hidden />
+                {/* Targeting frame */}
+                <div className="targeting-frame">
+                  <span />
+                </div>
+              </button>
+              {/* Label */}
               <div
-                aria-hidden
-                className="absolute inset-0 pointer-events-none transition-opacity duration-300"
-                style={{
-                  background:
-                    "radial-gradient(circle at 67% 52%, transparent 8%, rgba(0,0,0,0.65) 30%)",
-                }}
-              />
-            )}
+                className="absolute left-1/2 -translate-x-1/2 mt-3 whitespace-nowrap font-mono text-[9px] sm:text-[10px] text-[color:var(--bug)] bug-glow font-bold"
+                style={{ top: "100%" }}
+              >
+                [ EXECUTAR_PATCH_2.0 ]
+              </div>
+            </div>
           </div>
 
           {/* Bottom status bar */}
@@ -305,33 +347,14 @@ export default function ChoiceModule() {
               capsules: 02 · executable: 01
             </span>
             <span className="text-[color:var(--neon)] crt-glow">
-              hover/tap → diagnose
+              tap → diagnose
             </span>
           </div>
         </div>
 
-        {/* Below-image terminal text */}
-        <div className="mt-6 min-h-[64px] text-center font-mono text-xs sm:text-sm space-y-2">
-          {blueErr && (
-            <div className="text-[color:var(--bug)] bug-glow font-bold blink">
-              [ERRO: OBSOLESCÊNCIA DETECTADA - OPÇÃO NÃO DISPONÍVEL]_
-            </div>
-          )}
-          {redHover && !executing && !blueErr && (
-            <div className="text-[color:var(--neon)] crt-glow font-bold blink">
-              &gt; CLIQUE PARA EXECUTAR_
-            </div>
-          )}
-          {!blueErr && !redHover && (
-            <>
-              <div className="text-[color:var(--terminal)]/70">
-                &gt; left.capsule = legacy.sys · right.capsule = patch.cc2.0
-              </div>
-              <div className="text-[color:var(--terminal)]/50 text-[10px]">
-                // toque ou clique sobre uma das pílulas
-              </div>
-            </>
-          )}
+        {/* Helper text */}
+        <div className="mt-6 text-center font-mono text-[10px] sm:text-xs text-[color:var(--terminal)]/70">
+          // toque sobre uma das cápsulas
         </div>
       </div>
 
@@ -343,22 +366,24 @@ export default function ChoiceModule() {
             role="dialog"
             aria-live="assertive"
             className="fixed inset-0 flex items-center justify-center px-4"
-            style={{ zIndex: 99999, pointerEvents: "none" }}
+            style={{ zIndex: 10000, pointerEvents: "none" }}
           >
-            <div className="text-center max-w-[92vw]">
-              <p
-                className="text-[color:var(--neon)] crt-glow font-bold blink leading-tight font-mono"
-                style={{ fontSize: "clamp(1.25rem, 5vw, 3rem)" }}
+            <div className="text-center max-w-[92vw] font-mono">
+              <div
+                className="text-[color:var(--neon)] crt-glow font-bold leading-relaxed"
+                style={{ fontSize: "clamp(0.85rem, 2.6vw, 1.25rem)" }}
               >
-                SISTEMA HACKEADO.
-              </p>
-              <p
-                className="mt-2 text-[color:var(--neon)] crt-glow font-bold leading-tight font-mono"
-                style={{ fontSize: "clamp(1rem, 4vw, 2.25rem)" }}
-              >
-                APLICANDO PATCH CC 2.0...
-              </p>
-              <p className="mt-6 text-[color:var(--terminal)] text-xs sm:text-sm font-mono blink-cursor">
+                {logStep >= 1 && <p>&gt; KERNEL_REWRITING... [OK]</p>}
+                {logStep >= 2 && (
+                  <p>&gt; ADAPTANDO_REALIDADE_FÁTICA... [100%]</p>
+                )}
+                {logStep >= 3 && (
+                  <p className="blink mt-2 text-[color:var(--bug)] bug-glow">
+                    &gt; WAKE UP, NEO.
+                  </p>
+                )}
+              </div>
+              <p className="mt-6 text-[color:var(--terminal)] text-xs blink-cursor">
                 $ redirecting → sympla.com.br
               </p>
             </div>
