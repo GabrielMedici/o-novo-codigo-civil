@@ -209,12 +209,16 @@ function PillHotspot({
           onPointerUp={isLegacy ? onBlueActivate : onRedActivate}
           disabled={!isLegacy && executing}
           aria-label={config.aria}
-          className="relative block"
+          className={[
+            "relative block",
+            // tamanho da hitbox: mobile menor, desktop maior
+            "w-[43px] h-[20px] sm:w-[90px] sm:h-[49px]",
+          ].join(" ")}
           style={{
             cursor: isLegacy ? "not-allowed" : executing ? "default" : "pointer",
             background: "transparent",
             border: "none",
-            padding: "12px 19px", // mantém sua área clicável
+            padding: "0",           // padding zero para bater com width/height
             touchAction: "manipulation",
           }}
         >
