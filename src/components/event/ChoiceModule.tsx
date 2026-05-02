@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import pillsImage from "@/assets/image_6.png";
 
 const SYMPLA_URL =
-  "https://www.sympla.com.br/evento/a-coisa-que-sente---de-objeto-sujeito-com-a-reforma-do-codigo-civil/3404244";
+  "https://www.sympla.com.br/evento/cOdigo-civil-20--o-patch-que-a-lei-precisava---adaptando-a-lei-a-realidade-fatica/3409159";
 
 /* ---------------- Matrix Rain (Canvas) ---------------- */
 
@@ -30,7 +30,7 @@ function MatrixRainCanvas({ active }: { active: boolean }) {
 
     const fontSize = 16;
     const chars =
-      "アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEF{}[]<>=+-*/$#@!";
+      "ア0101イ00000ウエオカキ1ク0ケコサシスセソタチツテトナニヌネノ0123456789ABCDEF{}[]<>=+-*/$#@!";
 
     function resize() {
       width = window.innerWidth;
