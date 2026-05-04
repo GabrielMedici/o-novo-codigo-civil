@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import pillsImage from "@/assets/image_6.png";
+import pillsImage from "@/assets/mãos.png";
 import bgVideo from "@/assets/matrix_bg.mp4";
 
 const SYMPLA_URL =
