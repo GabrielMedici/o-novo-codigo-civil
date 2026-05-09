@@ -124,7 +124,6 @@ interface PillConfig {
 const STAGE_ASPECT = "3 / 2";
 const IMG_POSITION = "center 45%";
 
-/* Ajuste fino de posição mantido conforme solicitado */
 const PILLS: Record<"legacy" | "patch", PillConfig> = {
   legacy: {
     x: "25.8%",
@@ -239,6 +238,7 @@ function PillHotspot({
 /* ---------------- Choice Module ---------------- */
 
 export default function ChoiceModule() {
+  // LÓGICA DO COMPONENTE
   const [executing, setExecuting] = useState(false);
   const [blueShake, setBlueShake] = useState(false);
   const [screenGlitch, setScreenGlitch] = useState(false);
@@ -279,7 +279,6 @@ export default function ChoiceModule() {
       }
     }, 500);
 
-    // Redirecionamento original
     setTimeout(() => { window.location.href = SYMPLA_URL; }, 11800);
   }, [executing]);
 
@@ -294,24 +293,6 @@ export default function ChoiceModule() {
     window.setTimeout(() => setBlueShake(false), 600);
   };
 
-    const scrollToPills = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const target = document.getElementById("modulo-de-escolha");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
-
-  return (
-    <section
-      className={`relative overflow-hidden border-t border-neon/30 bg-transparent ${
-        screenGlitch ? "screen-glitch" : ""
-      }`}
-    >
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
-        
-       {/* BOTÕES FIXOS REFINADOS */}
-       // ... existing code ...
   const scrollToPills = (e: React.MouseEvent) => {
     e.preventDefault();
     const target = document.getElementById("modulo-de-escolha");
@@ -320,6 +301,7 @@ export default function ChoiceModule() {
     }
   };
 
+  // INTERFACE
   return (
     <section
       className={`relative overflow-hidden border-t border-neon/30 bg-transparent ${
@@ -328,41 +310,8 @@ export default function ChoiceModule() {
     >
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
         
-       {/* BOTÃO FIXO REFINADO */}
+        {/* BOTÃO FIXO REFINADO */}
         <div className="fixed top-10 right-6 z-9990 flex flex-col gap-3">
-          <button
-            onClick={scrollToPills}
-            className="glitch-hover group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
-          >
-            {/* Texto Original */}
-            <span className="original-text crt-glow relative z-10 uppercase">
-              [ Garanta Sua Vaga ]
-            </span>
-            
-            {/* Texto do Bug (só aparece no hover) */}
-            <span className="bug-text crt-glow relative z-10 uppercase text-neon">
-              [ ACORDAR_AGORA ]
-            </span>
-
-            <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-10" />
-          </button>
-
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
-          >
-            <span className="crt-glow relative z-10 uppercase">
-              [ Instagram ]
-            </span>
-            <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-10" />
-          </a>
-        </div>
-
-        <h2
-// ... existing code ...
- <div className="fixed top-10 right-6 z-9990 flex flex-col gap-3">
           <button
             onClick={scrollToPills}
             className="glitch-hover group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
@@ -496,7 +445,6 @@ export default function ChoiceModule() {
             }}
           />
 
-          {/* O atributo loop foi removido abaixo */}
           <video
             src={bgVideo} 
             autoPlay
@@ -509,15 +457,11 @@ export default function ChoiceModule() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              opacity: 0.40, /* Sua nova opacidade mais alta */
+              opacity: 0.40, 
               zIndex: 9998,
               pointerEvents: "none",
-              
-              /* AS DUAS LINHAS NOVAS AQUI: */
               mixBlendMode: "screen", 
               transform: "scale(1.1)",
-
-              /* Suas máscaras intocadas: */
               WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
               maskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
               WebkitMaskSize: "cover",
