@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import pillsImage from "@/assets/pilulas.png";
 import bgVideo from "@/assets/matrix_bg.mp4";
 
+const INSTAGRAM_URL = "https://www.instagram.com/direito_civil2.0"
 const SYMPLA_URL =
   "https://www.sympla.com.br/evento/cOdigo-civil-20--o-patch-que-a-lei-precisava---adaptando-a-lei-a-realidade-fatica/3409159";
 
@@ -293,6 +294,24 @@ export default function ChoiceModule() {
     window.setTimeout(() => setBlueShake(false), 600);
   };
 
+    const scrollToPills = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const target = document.getElementById("modulo-de-escolha");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  return (
+    <section
+      className={`relative overflow-hidden border-t border-neon/30 bg-transparent ${
+        screenGlitch ? "screen-glitch" : ""
+      }`}
+    >
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
+        
+       {/* BOTÕES FIXOS REFINADOS */}
+       // ... existing code ...
   const scrollToPills = (e: React.MouseEvent) => {
     e.preventDefault();
     const target = document.getElementById("modulo-de-escolha");
@@ -310,7 +329,7 @@ export default function ChoiceModule() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
         
        {/* BOTÃO FIXO REFINADO */}
-        <div className="fixed top-10 right-6 z-9990">
+        <div className="fixed top-10 right-6 z-9990 flex flex-col gap-3">
           <button
             onClick={scrollToPills}
             className="glitch-hover group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
@@ -327,6 +346,47 @@ export default function ChoiceModule() {
 
             <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-10" />
           </button>
+
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
+          >
+            <span className="crt-glow relative z-10 uppercase">
+              [ Instagram ]
+            </span>
+            <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-10" />
+          </a>
+        </div>
+
+        <h2
+// ... existing code ...
+ <div className="fixed top-10 right-6 z-9990 flex flex-col gap-3">
+          <button
+            onClick={scrollToPills}
+            className="glitch-hover group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
+          >
+            <span className="original-text crt-glow relative z-10 uppercase">
+              [ Garanta Sua Vaga ]
+            </span>
+            <span className="bug-text crt-glow relative z-10 uppercase text-neon">
+              [ ACORDAR_AGORA ]
+            </span>
+            <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-10" />
+          </button>
+
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glitch-hover group relative inline-flex items-center justify-center overflow-hidden border border-neon bg-black/80 px-4 py-1.5 font-mono text-xs font-bold tracking-wider text-neon backdrop-blur-md transition-all cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.2)]"
+          >
+            <span className="crt-glow relative z-10 uppercase">
+              [ Instagram ]
+            </span>
+            <div className="absolute inset-0 z-0 bg-neon opacity-0 transition-opacity group-hover:opacity-10" />
+          </a>
         </div>
 
         <h2
