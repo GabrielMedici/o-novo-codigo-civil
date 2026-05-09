@@ -63,7 +63,7 @@ export default function Index() {
         {/* TOP BAR */}
         <header className="border-b border-(--neon)/40 px-4 py-2 text-xs flex flex-wrap items-center justify-between gap-2 backdrop-blur-md bg-black/40">
           <span className="crt-glow">Liberar@C.C-2.0:~#</span>
-          <span className="text-[color:var(--terminal)]">SESSÃO: N°0 C.C. - 2026 · USUÁRIO 01</span>
+          <span className="text-[color:var(--terminal)]">SESSÃO: N° 1 C.C. - 2026 · Usuário Fundador</span>
           <span className="blink text-[color:var(--neon)]">● ONLINE</span>
         </header>
 

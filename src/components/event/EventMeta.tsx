@@ -37,10 +37,10 @@ export default function EventMeta() {
     <section className="border-t border-neon/30 bg-transparent">
       <div className="px-4 sm:px-8 py-16 max-w-6xl mx-auto">
         <p className="text-terminal text-xs mb-2">
-          $ cat /etc/event/manifest.json
+          Sobre o local
         </p>
         <h2 className="text-2xl sm:text-3xl font-bold mb-8 crt-glow text-neon">
-          // METADADOS_DO_EVENTO_
+          // DADOS_DO_EVENTO_
         </h2>
 
         {/* META GRID */}
@@ -61,7 +61,7 @@ export default function EventMeta() {
 
         {/* SPEAKERS */}
         <p className="text-terminal text-xs mt-12 mb-2">
-          $ ls -la /usr/share/speakers/ | grep .user
+          $ - Evento/responsáveis/despertar
         </p>
         <h3 className="text-xl sm:text-2xl font-bold mb-6 crt-glow text-neon">
           // PALESTRANTES_CONFIRMADOS
